@@ -14,7 +14,6 @@ db.connect((err) => {
         console.log("Error en la conexion a la base de datos", err);
     }else{
         console.log("Conexion con la base de datos exitosa");
-        console.log(credencials.HOST, credencials.DB);
     }
 })
 

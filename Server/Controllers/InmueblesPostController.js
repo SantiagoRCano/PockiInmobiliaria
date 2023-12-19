@@ -26,14 +26,14 @@ const addResidencia = (req, res) => {
 
 const addComercial = (req,res) => {
     const { Idinmobiliaria, Idasesor, Tipocomercial, Nombre, Ciudad, Barrio, Tiposervicio, 
-    Areaconstruida, Anoconstruccion, Imagen,Enlace,Precio,Estado,Arealote } = req.body
+    Areaconstruida, Anoconstruccion, Imagen,Enlace,Precio,Arealote,Estado } = req.body
 
     const query = `INSERT INTO comercial(ID_inmobiliaria,ID_Asesor,TipoC,NombreC,CiudadC,BarrioC,Tipo_ServicioC,
-    AreaC,Ano_ConstruccionC,ImagenC,EnlaceC,PrecioC,EstadoC,Area_LoteC) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+    AreaC,Ano_ConstruccionC,ImagenC,EnlaceC,PrecioC,Area_LoteC,EstadoC) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
 
 
     const values = [Idinmobiliaria, Idasesor, Tipocomercial, Nombre, Ciudad, Barrio, Tiposervicio,
-    Areaconstruida, Anoconstruccion, Imagen, Enlace, Precio, Estado, Arealote]
+    Areaconstruida, Anoconstruccion, Imagen, Enlace, Precio,Arealote, Estado]
 
     db.query(query, values, (err, result) => {
         if(err){
