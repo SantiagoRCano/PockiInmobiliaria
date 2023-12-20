@@ -1,16 +1,13 @@
 const db = require('../Database/database.js')
 
-
 const residencialFilter = (req,res) => {
     let query = 
     `
-    SELECT Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,
-    Nombre_Asesor,Telefono_Asesor,TipoR, NombreR, HabitacionR,BanosR,
+    SELECT Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoR, NombreR, HabitacionR,BanosR,
     ParqueaderosR,CiudadR,BarrioR,Unidad_CerradaR,Area_ConstruidaR,PrecioR,Ano_ConstruccionR,Tipo_ServicioR,
     Area_Lote,ImagenR,EnlaceR,EstadoR
-    FROM inmobiliaria INNER JOIN asesor ON asesor.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria
+    FROM inmobiliaria 
     INNER JOIN residencial ON residencial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria 
-    AND asesor.ID_Asesor = residencial.ID_Asesor WHERE 1 = 1
     `
 
     const { Tiporesidencia,Habitaciones,Baños,Parqueaderos,Ciudad,Barrio,Tiposervicio,Unidadcerrada,
@@ -28,7 +25,7 @@ const residencialFilter = (req,res) => {
     query += Anoconstruccion != null ? ` AND Ano_ConstruccionR = ${Anoconstruccion}` : ""
     query += Presupuesto != null ? ` AND PrecioR <= ${Presupuesto}` : ""
 
-    query += ` AND EstadoR = 1`
+    query += ` AND EstadoR = 'Disponible'`
 
     if(Arealote != 0 && Arealote != null){
         query += ` AND Area_Lote >= ${Arealote}`
@@ -56,12 +53,10 @@ const residencialFilter = (req,res) => {
 const comercialFilter = (req, res) => {
     let query =
     `
-    SELECT Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,
-    Nombre_Asesor,Telefono_Asesor,TipoC,NombreC,CiudadC,BarrioC,AreaC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
+    SELECT Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoC,NombreC,CiudadC,BarrioC,AreaC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
     Area_LoteC
-    FROM inmobiliaria INNER JOIN asesor ON asesor.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria
+    FROM inmobiliaria
     INNER JOIN comercial ON comercial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria 
-    AND Asesor.ID_Asesor = comercial.ID_Asesor WHERE 1 = 1
     `
 
     const {Tipocomercial, Ciudad, Barrio,Tiposervicio,Areaconstruccion,Anoconstruccion,Presupuesto,Arealote} = req.body

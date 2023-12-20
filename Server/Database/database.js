@@ -5,7 +5,8 @@ const db = mysql.createConnection({
     host: credencials.HOST,
     user:credencials.USER,
     password:credencials.PASSWORD,
-    database:credencials.DB
+    database:credencials.DB,
+    port: credencials.SQLPORT
 })
 
 
