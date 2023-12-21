@@ -25,7 +25,7 @@ const residencialFilter = (req,res) => {
     query += Anoconstruccion != null ? ` AND Ano_ConstruccionR = ${Anoconstruccion}` : ""
     query += Presupuesto != null ? ` AND PrecioR <= ${Presupuesto}` : ""
 
-    query += ` AND EstadoR = 'Disponible'`
+
 
     if(Arealote != 0 && Arealote != null){
         query += ` AND Area_Lote >= ${Arealote}`
@@ -59,7 +59,7 @@ const comercialFilter = (req, res) => {
     INNER JOIN comercial ON comercial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria 
     `
 
-    const {Tipocomercial, Ciudad, Barrio,Tiposervicio,Areaconstruccion,Anoconstruccion,Presupuesto,Arealote,Estado} = req.body
+    const {Tipocomercial, Ciudad, Barrio,Tiposervicio,Areaconstruccion,Anoconstruccion,Presupuesto,Arealote} = req.body
 
     query += Tipocomercial != null && Tipocomercial.length > 0 ? ` AND TipoC LIKE '%${Tipocomercial}%'` : ""
     query += Ciudad != null && Ciudad.length > 0 ? ` AND CiudadC LIKE '%${Ciudad}%'` : ""
