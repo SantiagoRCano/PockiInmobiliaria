@@ -87,6 +87,9 @@ const comercialFilter = (req, res) => {
 }
 
 
+const saludo = (req, res) => {
+    res.send('Hola Mundo')
+}
 
 
-module.exports = { residencialFilter, comercialFilter }
+module.exports = { residencialFilter, comercialFilter, saludo }
