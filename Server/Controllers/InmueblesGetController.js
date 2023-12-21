@@ -3,7 +3,7 @@ const db = require('../Database/database.js')
 const residencialFilter = (req,res) => {
     let query = 
     `
-    SELECT Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoR, NombreR, HabitacionR,BanosR,
+    SELECT residencial.ID_Inmobiliaria,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoR, NombreR, HabitacionR,BanosR,
     ParqueaderosR,CiudadR,BarrioR,Unidad_CerradaR,Area_ConstruidaR,PrecioR,Ano_ConstruccionR,Tipo_ServicioR,
     Area_Lote,ImagenR,EnlaceR,EstadoR
     FROM inmobiliaria 
@@ -53,13 +53,13 @@ const residencialFilter = (req,res) => {
 const comercialFilter = (req, res) => {
     let query =
     `
-    SELECT Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoC,NombreC,CiudadC,BarrioC,AreaC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
+    SELECT comercial.ID_Inmobiliaria,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoC,NombreC,CiudadC,BarrioC,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
     Area_LoteC
     FROM inmobiliaria
     INNER JOIN comercial ON comercial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria 
     `
 
-    const {Tipocomercial, Ciudad, Barrio,Tiposervicio,Areaconstruccion,Anoconstruccion,Presupuesto,Arealote} = req.body
+    const {Tipocomercial, Ciudad, Barrio,Tiposervicio,Areaconstruccion,Anoconstruccion,Presupuesto,Arealote,Estado} = req.body
 
     query += Tipocomercial != null && Tipocomercial.length > 0 ? ` AND TipoC LIKE '%${Tipocomercial}%'` : ""
     query += Ciudad != null && Ciudad.length > 0 ? ` AND CiudadC LIKE '%${Ciudad}%'` : ""
@@ -87,9 +87,18 @@ const comercialFilter = (req, res) => {
 }
 
 
-const saludo = (req, res) => {
-    res.send('Hola Mundo')
+const getUsers = async(req, res) =>{
+    let query = `SELECT * FROM inmobiliaria`
+
+    db.query(query, (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener los inmuebles comerciales`, err);
+            res.status(500).json({ error: "Error al obtener inmueble comercial"})
+            return
+        }
+        res.json(result)
+    })
 }
 
 
-module.exports = { residencialFilter, comercialFilter, saludo }
+module.exports = { residencialFilter, comercialFilter, getUsers }
