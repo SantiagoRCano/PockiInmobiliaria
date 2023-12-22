@@ -3,7 +3,7 @@ const db = require('../Database/database.js')
 const residencialFilter = (req,res) => {
     let query = 
     `
-    SELECT residencial.ID_Inmobiliaria,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoR, NombreR, HabitacionR,BanosR,
+    SELECT residencial.ID_Inmobiliaria,ID_Residencial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoR, NombreR, HabitacionR,BanosR,
     ParqueaderosR,CiudadR,BarrioR,Unidad_CerradaR,Area_ConstruidaR,PrecioR,Ano_ConstruccionR,Tipo_ServicioR,
     Area_Lote,ImagenR,EnlaceR,EstadoR
     FROM inmobiliaria 
@@ -53,7 +53,7 @@ const residencialFilter = (req,res) => {
 const comercialFilter = (req, res) => {
     let query =
     `
-    SELECT comercial.ID_Inmobiliaria,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoC,NombreC,CiudadC,BarrioC,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
+    SELECT comercial.ID_Inmobiliaria,ID_Comercial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoC,NombreC,CiudadC,BarrioC,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
     Area_LoteC
     FROM inmobiliaria
     INNER JOIN comercial ON comercial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria 
