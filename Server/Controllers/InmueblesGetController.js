@@ -116,7 +116,7 @@ const comercialByMail = (req, res) => {
     let query = 
     `
     SELECT comercial.ID_Inmobiliaria,ID_Comercial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoC,NombreC,CiudadC,BarrioC,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,
-    Tipo_ServicioC,Area_LoteC 
+    Tipo_ServicioC,Area_LoteC,ImagenC,EnlaceC
     FROM inmobiliaria
     INNER JOIN comercial ON comercial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria WHERE Correo_Inmobiliaria = ?;
     `
