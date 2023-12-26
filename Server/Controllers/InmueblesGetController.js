@@ -87,13 +87,22 @@ const comercialFilter = (req, res) => {
 }
 
 
-const getUsers = async(req, res) =>{
-    let query = `SELECT * FROM inmobiliaria`
+const residenciaByMail = (req,res) => {
 
-    db.query(query, (err, result) => {
+    const personMail = req.params.mail
+    let query = 
+    `
+    SELECT residencial.ID_Inmobiliaria, ID_Residencial, Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoR,
+    NombreR,HabitacionR,BanosR,ParqueaderosR,CiudadR,BarrioR,Unidad_CerradaR,Area_ConstruidaR,PrecioR,
+    Ano_ConstruccionR,Tipo_ServicioR,Area_Lote,ImagenR,EnlaceR,EstadoR 
+    FROM inmobiliaria
+    INNER JOIN residencial ON residencial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria WHERE Correo_Inmobiliaria = ?;
+    `
+
+    db.query(query, [personMail], (err,result) => {
         if(err){
-            console.log(`No se ha podido obtener los inmuebles comerciales`, err);
-            res.status(500).json({ error: "Error al obtener inmueble comercial"})
+            console.log(`No se ha podido obtener inmuebles con el correo`, err);
+            res.status(500).json({ error: "Error al obtener inmuebles"})
             return
         }
         res.json(result)
@@ -101,4 +110,71 @@ const getUsers = async(req, res) =>{
 }
 
 
-module.exports = { residencialFilter, comercialFilter, getUsers }
+const comercialByMail = (req, res) => {
+    const personMail = req.params.mail
+
+    let query = 
+    `
+    SELECT comercial.ID_Inmobiliaria,ID_Comercial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoC,NombreC,CiudadC,BarrioC,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,
+    Tipo_ServicioC,Area_LoteC 
+    FROM inmobiliaria
+    INNER JOIN comercial ON comercial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria WHERE Correo_Inmobiliaria = ?;
+    `
+
+    db.query(query, [personMail], (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener inmuebles con el correo`, err);
+            res.status(500).json({ error: "Error al obtener inmuebles"})
+            return
+        }
+        res.json(result)
+    })
+}
+
+
+const getResidenciaById = (req,res) => {
+    const residenciaId = req.params.id
+
+    let query = 
+    `
+    SELECT residencial.ID_Inmobiliaria, ID_Residencial, Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoR,
+    NombreR,HabitacionR,BanosR,ParqueaderosR,CiudadR,BarrioR,Unidad_CerradaR,Area_ConstruidaR,PrecioR,
+    Ano_ConstruccionR,Tipo_ServicioR,Area_Lote,ImagenR,EnlaceR,EstadoR 
+    FROM inmobiliaria
+    INNER JOIN residencial ON residencial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria WHERE ID_Residencial = ?;
+    `
+
+    db.query(query, [residenciaId], (err,result) => {
+        if(err){
+            console.log(`No se ha podido obtener inmuebles con el correo`, err);
+            res.status(500).json({ error: "Error al obtener inmuebles"})
+            return
+        }
+        res.json(result)
+    })
+
+
+}
+
+const getComercialById = (req,res) => {
+    const comercialId = req.params.id
+
+    let query = 
+    `
+    SELECT comercial.ID_Inmobiliaria,ID_Comercial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoC,NombreC,CiudadC,BarrioC,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
+    Area_LoteC
+    FROM inmobiliaria
+    INNER JOIN comercial ON comercial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria WHERE ID_Comercial = ?
+    `
+
+    db.query(query, [comercialId], (err,result) => {
+        if(err){
+            console.log(`No se ha podido obtener inmuebles con el correo`, err);
+            res.status(500).json({ error: "Error al obtener inmuebles"})
+            return
+        }
+        res.json(result)
+    })
+}
+
+module.exports = { residencialFilter, comercialFilter, residenciaByMail, comercialByMail, getResidenciaById,getComercialById }
