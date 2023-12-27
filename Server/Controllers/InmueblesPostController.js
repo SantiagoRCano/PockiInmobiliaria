@@ -47,8 +47,170 @@ const addComercial = (req,res) => {
     })
 }
 
+// const updateComercial = (req,res) => {
+//     const { Tipocomercial, Nombre, Ciudad, Barrio, Tiposervicio, Areaconstruida, Anoconstruccion,
+//     Imagen, Enlace, Precio, Arealote, Estado} = req.body
+
+//     const comercialId = req.params.id
+
+//     let query = 
+//     `
+//     UPDATE comercial 
+//     SET
+//         TipoC = ?,
+//         NombreC = ?,
+//         CiudadC = ?,
+//         BarrioC = ?,
+//         Tipo_ServicioC = ?,
+//         AreaC = ?,
+//         Ano_ConstruccionC = ?,
+//         ImagenC = ?,
+//         EnlaceC = ?,
+//         PrecioC = ?,
+//         Area_LoteC = ?,
+//         EstadoC = ?
+//     WHERE ID_Comercial = ?
+//     `
+
+//     let values = [Tipocomercial, Nombre, Ciudad, Barrio, Tiposervicio, Areaconstruida, Anoconstruccion, Imagen, Enlace,
+//     Precio, Arealote, Estado, comercialId]
+
+//     db.query(query, values, (err, result) => {
+//         if(err){
+//             res.status(500).send(`Error al actualizar comercial con id ${comercialId}`)
+//             console.log("No se ha podido actualizar", err);
+//         }
+
+//         res.status(200).send("Comercial Actualizado con exito")
+//     })
+// }
 
 
+
+const updateComercial = (req,res) => {
+    let comercialId = req.params.id
+    let requestBody = req.body
+
+    if (!comercialId) {
+        return res.status(400).json({ error: 'ID no proporcionado en la URL' });
+    }
+
+    if(Object.keys(requestBody).length === 0){
+        const selectQuery = `SELECT * FROM comercial WHERE ID_Comercial = ?`
+
+        db.query(selectQuery, [comercialId], (err,result) => {
+            if (err) {
+                console.error('Error al seleccionar el registro:', err);
+                return res.status(500).json({ error: 'Error interno del servidor' });
+            }
+
+
+            if (result.length === 0) {
+                return res.status(404).json({ error: 'Registro no encontrado' });
+            }
+
+
+            return res.json(result[0])
+        });
+    }else{
+
+        if(requestBody.hasOwnProperty("Tipocomercial")){
+            requestBody.TipoC = requestBody.Tipocomercial
+            delete requestBody.Tipocomercial
+        }
+
+        if(requestBody.hasOwnProperty("Ciudad")){
+            requestBody.CiudadC = requestBody.Ciudad
+        }
+
+        if(requestBody.hasOwnProperty("Nombre")){
+            requestBody.NombreC = requestBody.Nombre
+            delete requestBody.Nombre
+        }
+
+        if(requestBody.hasOwnProperty("Barrio")){
+            requestBody.BarrioC = requestBody.Barrio;
+            delete requestBody.Barrio;
+        }
+
+        if(requestBody.hasOwnProperty("Tiposervicio")){
+            requestBody.Tipo_ServicioC = requestBody.Tiposervicio
+            delete requestBody.Tiposervicio
+        }
+
+        if(requestBody.hasOwnProperty("Areaconstruida")){
+            requestBody.AreaC = requestBody.Areaconstruida
+            delete requestBody.Areaconstruida
+        }
+
+        if(requestBody.hasOwnProperty("Anoconstruccion")){
+            requestBody.Ano_ConstruccionC = requestBody.Anoconstruccion
+            delete requestBody.Anoconstruccion
+        }
+
+        if(requestBody.hasOwnProperty("Imagen")){
+            requestBody.ImagenC = requestBody.Imagen
+            delete requestBody.Imagen
+        }
+
+        if(requestBody.hasOwnProperty("Enlace")){
+            requestBody.EnlaceC = requestBody.Enlace
+            delete requestBody.Enlace
+        }
+
+        if(requestBody.hasOwnProperty("Precio")){
+            requestBody.PrecioC = requestBody.Precio
+            delete requestBody.Precio
+        }
+
+        if(requestBody.hasOwnProperty("Arealote")){
+            requestBody.Area_LoteC = requestBody.Arealote
+            delete requestBody.Arealote
+        }
+
+
+        if(requestBody.hasOwnProperty("Estado")){
+            requestBody.EstadoC = requestBody.Estado
+            delete requestBody.Estado
+        }
+
+
+
+        // const { Idinmobiliaria, Tipocomercial, Nombre, Ciudad, Barrio, Tiposervicio, 
+        // Areaconstruida, Anoconstruccion, Imagen,Enlace,Precio,Arealote,Estado } = req.body
+
+        
+
+
+
+        const updateQuery = `UPDATE comercial SET ? WHERE ID_Comercial = ?`
+
+
+        db.query(updateQuery, [requestBody, comercialId], (err, result) => {
+            if(err) {
+                console.error('Error al actualizar el registro:', err);
+                return res.status(500).json({ error: 'Error interno del servidor' });
+            }
+        
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: 'Registro no encontrado' });
+            }
+
+            let selectQuery = `SELECT * FROM comercial WHERE ID_Comercial = ?`;
+
+            db.query(selectQuery, [comercialId], (err, result) => {
+                if (err) {
+                    console.error('Error al seleccionar el registro actualizado:', err);
+                    return res.status(500).json({ error: 'Error interno del servidor' });
+                }
+          
+                return res.json(result[0]);
+            })
+        })
+    }
+
+    
+}
 
 const addUser = async (req, res) => {
     const { Nombreinmobi, Correoinmobi, Telefonoinmobi, Ubicacioninmobi, Estado, Fecharegistro, Numeroidentificacion,
@@ -78,4 +240,4 @@ const addUser = async (req, res) => {
 
 
 
-module.exports = { addResidencia, addComercial, addUser }
+module.exports = { addResidencia, addComercial, addUser, updateComercial }

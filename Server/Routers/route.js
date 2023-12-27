@@ -14,6 +14,8 @@ router.get('/comercialById/:id', propiedadesInmuebles.getComercialById)
 router.post('/addResidencia', guardarInmuebles.addResidencia)
 router.post('/addComercial', guardarInmuebles.addComercial)
 router.post('/addUser', guardarInmuebles.addUser)
+router.put('/updateComercial/:id', guardarInmuebles.updateComercial)
+// router.put('/updateComercial/:id', guardarInmuebles.updateComercial)
 // router.post('/loginUser', auth.verifyUser)
 
 module.exports = router;
