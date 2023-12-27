@@ -121,6 +121,7 @@ const updateComercial = (req,res) => {
 
         if(requestBody.hasOwnProperty("Ciudad")){
             requestBody.CiudadC = requestBody.Ciudad
+            delete requestBody.Ciudad
         }
 
         if(requestBody.hasOwnProperty("Nombre")){
@@ -174,12 +175,6 @@ const updateComercial = (req,res) => {
             delete requestBody.Estado
         }
 
-
-
-        // const { Idinmobiliaria, Tipocomercial, Nombre, Ciudad, Barrio, Tiposervicio, 
-        // Areaconstruida, Anoconstruccion, Imagen,Enlace,Precio,Arealote,Estado } = req.body
-
-        
 
 
 
