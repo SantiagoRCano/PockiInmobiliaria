@@ -15,6 +15,7 @@ router.post('/addResidencia', guardarInmuebles.addResidencia)
 router.post('/addComercial', guardarInmuebles.addComercial)
 router.post('/addUser', guardarInmuebles.addUser)
 router.put('/updateComercial/:id', guardarInmuebles.updateComercial)
+router.put('/updateResidencial/:id', guardarInmuebles.updateResidencial)
 // router.put('/updateComercial/:id', guardarInmuebles.updateComercial)
 // router.post('/loginUser', auth.verifyUser)
 
