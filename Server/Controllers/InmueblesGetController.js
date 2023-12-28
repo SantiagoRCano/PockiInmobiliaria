@@ -1,5 +1,9 @@
 const db = require('../Database/database.js')
 
+
+
+
+
 const residencialFilter = (req,res) => {
     let query = 
     `

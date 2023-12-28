@@ -1,30 +1,6 @@
 const db = require('../Database/database.js')
 const bcrypt = require('bcrypt')
 
-const addResidencia = (req, res) => {
-    const { Idinmobiliaria, Tiporesidencia,Nombre,Habitaciones,Baños,Parqueaderos,Ciudad,Barrio,Tiposervicio,
-    Unidadcerrada, Areaconstruida,Anoconstruccion,Imagen,Enlace,Precio,Arealote, Estado} = req.body
-
-    let query = `INSERT INTO residencial(ID_Inmobiliaria,TipoR,NombreR,HabitacionR,BanosR,ParqueaderosR,
-    CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,Area_ConstruidaR,Ano_ConstruccionR,ImagenR,EnlaceR,PrecioR,Area_Lote,EstadoR)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
-
-    
-
-    const values = [Idinmobiliaria, Tiporesidencia, Nombre, Habitaciones, Baños, Parqueaderos,Ciudad,Barrio,
-    Tiposervicio,Unidadcerrada,Areaconstruida,Anoconstruccion,Imagen,Enlace,Precio,Arealote, Estado]
-
-    db.query(query, values, (err,result) => {
-        if(err){
-            res.status(500).send("Error al crear la residencia")
-            console.log("No se ha podido crear residencia", err);
-        }
-
-        res.status(200).send("Residencia creada con exito")
-    })
-
-}
-
 
 const addUser = async (req, res) => {
     const { Nombreinmobi, Correoinmobi, Telefonoinmobi, Ubicacioninmobi, Estado, Fecharegistro, Numeroidentificacion,
@@ -51,6 +27,34 @@ const addUser = async (req, res) => {
 
     
 }
+
+
+
+const addResidencia = (req, res) => {
+    const { Idinmobiliaria, Tiporesidencia,Nombre,Habitaciones,Baños,Parqueaderos,Ciudad,Barrio,Tiposervicio,
+    Unidadcerrada, Areaconstruida,Anoconstruccion,Imagen,Enlace,Precio,Arealote, Estado} = req.body
+
+    let query = `INSERT INTO residencial(ID_Inmobiliaria,TipoR,NombreR,HabitacionR,BanosR,ParqueaderosR,
+    CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,Area_ConstruidaR,Ano_ConstruccionR,ImagenR,EnlaceR,PrecioR,Area_Lote,EstadoR)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+
+    
+
+    const values = [Idinmobiliaria, Tiporesidencia, Nombre, Habitaciones, Baños, Parqueaderos,Ciudad,Barrio,
+    Tiposervicio,Unidadcerrada,Areaconstruida,Anoconstruccion,Imagen,Enlace,Precio,Arealote, Estado]
+
+    db.query(query, values, (err,result) => {
+        if(err){
+            res.status(500).send("Error al crear la residencia")
+            console.log("No se ha podido crear residencia", err);
+        }
+
+        res.status(200).send("Residencia creada con exito")
+    })
+
+}
+
+
 
 
 const addComercial = (req,res) => {

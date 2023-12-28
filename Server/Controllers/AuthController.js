@@ -1,6 +1,6 @@
-// const db = require('../Database/database.js')
-// const bcrypt = require('bcrypt')
-// const jwt = require('jsonwebtoken')
+const db = require('../Database/database.js')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 
 
@@ -23,8 +23,6 @@ const verifyUser =  async(req, res) => {
 
         let user = { correo: Correo, contraseña: Contraseña}
 
-        
-
 
         const cleanPassword = results[0].Contraseña
 
@@ -32,11 +30,24 @@ const verifyUser =  async(req, res) => {
 
 
         if(match){
-            let accesToken = jwt.sign(user, process.env.TOKEN_SECRET)
-            res.json({accesToken: accesToken})
+            let accesToken = jwt.sign(user, process.env.ACCESS_TOKEN)
+            res.json({ accesToken })
         }else{
             res.status(401).send("Contraseña incorrecta")
         }
+    })
+}
+
+
+function authenticateToken(req, res, next){
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if(token == null) return res.sendStatus(401)
+
+    jwt.verify(token, process.env.ACCESS_TOKEN, (err, user) => {
+        if(err) return res.sendStatus(403)
+        req.user = user
+        next()
     })
 }
 
