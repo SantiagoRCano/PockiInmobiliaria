@@ -7,7 +7,10 @@ const jwt = require('jsonwebtoken')
 const verifyUser =  async(req, res) => {
     const { Correo, Contraseña } = req.body
 
-    let query = `SELECT * FROM inmobiliaria WHERE Correo_Inmobiliaria = ?`
+    let query = `SELECT ID_Inmobiliaria,Nombre_Inmobiliaria,Correo_Inmobiliaria,Ubicacion_Inmobiliaria,
+    Estado,Fecharegistro,Numeroidentificacion,Representante,Tipoidentificacion,Municipio,Departamento,
+    Telefonorepresen,Celular,Correofacturacion,Personaencargada,Cargo,Telefonocargo,Contraseña 
+    FROM inmobiliaria WHERE Correo_Inmobiliaria = ?`
 
     db.query(query, [Correo], async (err, results) => {
         if(err){
@@ -28,10 +31,14 @@ const verifyUser =  async(req, res) => {
 
         let match = await bcrypt.compare(Contraseña, cleanPassword)
 
+        let answer = results.map(item => {
+            delete item.Contraseña
+            return item
+        })
 
         if(match){
             let accesToken = jwt.sign(user, process.env.ACCESS_TOKEN)
-            res.json({ accesToken })
+            res.json({ accesToken, answer })
         }else{
             res.status(401).send("Contraseña incorrecta")
         }
@@ -39,16 +46,5 @@ const verifyUser =  async(req, res) => {
 }
 
 
-function authenticateToken(req, res, next){
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if(token == null) return res.sendStatus(401)
-
-    jwt.verify(token, process.env.ACCESS_TOKEN, (err, user) => {
-        if(err) return res.sendStatus(403)
-        req.user = user
-        next()
-    })
-}
 
 module.exports = { verifyUser }

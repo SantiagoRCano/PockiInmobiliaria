@@ -47,6 +47,6 @@ function authenticateToken(req, res, next){
     })
 }
 
-// router.put('/updateComercial/:id', guardarInmuebles.updateComercial)
+
 
 module.exports = router;
