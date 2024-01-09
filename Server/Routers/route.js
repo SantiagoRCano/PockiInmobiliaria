@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken')
 //ENDPOINTS GET
 router.get('/residenciasFilter', propiedadesInmuebles.residencialFilter)
 router.get('/comercialFilter',propiedadesInmuebles.comercialFilter)
+router.get('/mensajePrueba', propiedadesInmuebles.generateLead)
 router.get('/UserResidencia/:mail', authenticateToken,propiedadesInmuebles.residenciaByMail)
 router.get('/UserComercial/:mail', authenticateToken,propiedadesInmuebles.comercialByMail)
 router.get('/residenciaById/:id', authenticateToken, propiedadesInmuebles.getResidenciaById)

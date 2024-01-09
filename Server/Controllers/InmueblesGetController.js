@@ -70,7 +70,7 @@ const comercialFilter = (req, res) => {
     query += Barrio != null && Barrio.length > 0 ? ` AND BarrioC LIKE '%${Barrio}%'` : ""
     query += Tiposervicio != null && Tiposervicio.length > 0 ? ` AND Tipo_ServicioC LIKE '%${Tiposervicio}%'`: ""
     query += Areaconstruccion != null ? ` AND AreaC >= ${Areaconstruccion}` : ""
-    query += Anoconstruccion != null ? ` AND Ano_ConstruccionC = ${Anoconstruccion}` : ""
+    query += Anoconstruccion != null ? ` AND Ano_ConstruccionC >= ${Anoconstruccion}` : ""
     query += Presupuesto != null ? ` AND PrecioC <= ${Presupuesto}` : ""
 
     if(Arealote != 0 && Arealote != null){
@@ -181,4 +181,34 @@ const getComercialById = (req,res) => {
     })
 }
 
-module.exports = { residencialFilter, comercialFilter, residenciaByMail, comercialByMail, getResidenciaById,getComercialById }
+
+const generateLead = (req, res, next) => {
+    let result;
+    const body = req.body
+
+    const obtenerFecha = () => {
+        const opcionesFechaHora  = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+            timeZone: 'America/Bogota',
+        }
+
+        const fecha = new Date()
+        const formatoFechaHora = new Intl.DateTimeFormat('es-CO', opcionesFechaHora).format(fecha).toString()
+
+
+        return formatoFechaHora
+    }
+
+    result = obtenerFecha()
+
+    res.send(result)
+    
+    
+}
+
+module.exports = { residencialFilter, comercialFilter, residenciaByMail, comercialByMail, getResidenciaById,getComercialById, generateLead }
