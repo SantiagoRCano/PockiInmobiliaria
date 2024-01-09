@@ -22,7 +22,7 @@ router.get('/comercialById/:id', authenticateToken,propiedadesInmuebles.getComer
 router.post('/loginUser', auth.verifyUser)
 router.post('/addResidencia', authenticateToken,guardarInmuebles.addResidencia)
 router.post('/addComercial', authenticateToken,guardarInmuebles.addComercial)
-router.post('/addUser', authenticateToken, guardarInmuebles.addUser)
+router.post('/addUser', guardarInmuebles.addUser)
 
 
 

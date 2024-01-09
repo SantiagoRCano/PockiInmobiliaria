@@ -26,7 +26,7 @@ const residencialFilter = (req,res) => {
     query += Tiposervicio != null && Tiposervicio.length > 0 ? ` AND Tipo_ServicioR LIKE '%${Tiposervicio}%'` : ""
     query += Unidadcerrada != null && Unidadcerrada.length > 0 ? ` AND Unidad_CerradaR LIKE '%${Unidadcerrada}%'` : ""
     query += Areaconstruida != null ? ` AND Area_ConstruidaR >= ${Areaconstruida}` : ""
-    query += Anoconstruccion != null ? ` AND Ano_ConstruccionR = ${Anoconstruccion}` : ""
+    query += Anoconstruccion != null ? ` AND Ano_ConstruccionR >= ${Anoconstruccion}` : ""
     query += Presupuesto != null ? ` AND PrecioR <= ${Presupuesto}` : ""
 
 
