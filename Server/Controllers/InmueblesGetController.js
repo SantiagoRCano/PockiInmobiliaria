@@ -75,6 +75,8 @@ const residencialFilter = (req,res) => {
 
 
 const comercialFilter = (req, res) => {
+    let mensajerespuesta;
+
     let query =
     `
     SELECT comercial.ID_Inmobiliaria,ID_Comercial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,Celular,TipoC,NombreC,CiudadC,BarrioC,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
@@ -106,7 +108,21 @@ const comercialFilter = (req, res) => {
             return
         }
 
-        res.json(result)
+
+        if(result.length > 0){
+            mensajerespuesta = result
+        }else{
+            mensajerespuesta = { Error: "Ups😞, estuvimos buscando en el banco de propiedades de nuestras inmobiliarias suscritas 🔍y no encontramos opciones que se ajusten a tus criterios seleccionados📋, prueba con otras características y buscaremos nuevamente para ti, escribele a 🤖Pocki SALIR e inicia de nuevo."}
+        }
+
+
+        if(result.length === 0){
+            res.status(400).json(mensajerespuesta)
+        }else{
+            res.json(mensajerespuesta)
+        }
+
+        
     })
 
 }
