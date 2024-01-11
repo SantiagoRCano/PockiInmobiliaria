@@ -253,6 +253,10 @@ const leadResidencia = (req,res,next) => {
                 return res.status(500).json({ error: 'Error en la consulta a la base de datos' });
             }
 
+            if(response.length === 0){
+                return res.status(400).json({ Error: 'No se ha encontrado ningún resultado para el ID_Residencial proporcionado'})
+            }
+
             const { Celular, ImagenR,Area_Lote,NombreR,HabitacionR,BanosR,Ano_ConstruccionR,ParqueaderosR,CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,TipoR,Area_ConstruidaR,
             EnlaceR,PrecioR, } = response[0]
 
@@ -275,9 +279,9 @@ Más Información: ${EnlaceR} 🆙\n
                 `
             }
 
-
             res.json(infoJson)
         });
+
 
     }catch(err){
         next(err)
@@ -317,6 +321,10 @@ const leadComercial = (req, res, next) => {
         db.query(result, [id], (err, response) => {
             if (err) {
                 return res.status(500).json({ error: 'Error en la consulta a la base de datos' });
+            }
+
+            if(response.length === 0){
+                return res.status(400).json({Error: "No se ha encontrado ningún resultado para el ID_Comercial proporcionado"})
             }
 
             const { Celular, TipoC, Tipo_ServicioC, NombreC, CiudadC, BarrioC, AreaC, Area_LoteC, Ano_ConstruccionC, ImagenC, EnlaceC, PrecioC } = response[0]
