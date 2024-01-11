@@ -1,6 +1,9 @@
 const db = require('../Database/database.js')
 
 
+
+//Eliminar un comercial
+
 const deleteComercial = (req, res) => {
     let comercialId = req.params.id
     let query = `DELETE FROM comercial WHERE ID_Comercial = ?`
@@ -17,6 +20,7 @@ const deleteComercial = (req, res) => {
     })
 }
 
+//Eliminar una residencia
 
 const deleteResidencia = (req, res) => {
     let residenciaId = req.params.id

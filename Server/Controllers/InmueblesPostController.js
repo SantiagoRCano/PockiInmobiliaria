@@ -2,6 +2,8 @@ const db = require('../Database/database.js')
 const bcrypt = require('bcrypt')
 
 
+//Crear un usuario
+
 const addUser = async (req, res) => {
     const { Nombreinmobi, Correoinmobi, Telefonoinmobi, Ubicacioninmobi, Estado, Fecharegistro, Numeroidentificacion,
     Representante,Tipoidentificacion, Municipio, Departamento, Telefonorepre, Celular, Correofacturacion, Personaencargada,
@@ -29,6 +31,7 @@ const addUser = async (req, res) => {
 }
 
 
+//Crear una residencia
 
 const addResidencia = (req, res) => {
     const { Idinmobiliaria, Tiporesidencia,Nombre,Habitaciones,Baños,Parqueaderos,Ciudad,Barrio,Tiposervicio,
@@ -55,7 +58,7 @@ const addResidencia = (req, res) => {
 }
 
 
-
+//Crear un comercial
 
 const addComercial = (req,res) => {
     const { Idinmobiliaria, Tipocomercial, Nombre, Ciudad, Barrio, Tiposervicio, 
@@ -78,45 +81,8 @@ const addComercial = (req,res) => {
     })
 }
 
-// const updateComercial = (req,res) => {
-//     const { Tipocomercial, Nombre, Ciudad, Barrio, Tiposervicio, Areaconstruida, Anoconstruccion,
-//     Imagen, Enlace, Precio, Arealote, Estado} = req.body
 
-//     const comercialId = req.params.id
-
-//     let query = 
-//     `
-//     UPDATE comercial 
-//     SET
-//         TipoC = ?,
-//         NombreC = ?,
-//         CiudadC = ?,
-//         BarrioC = ?,
-//         Tipo_ServicioC = ?,
-//         AreaC = ?,
-//         Ano_ConstruccionC = ?,
-//         ImagenC = ?,
-//         EnlaceC = ?,
-//         PrecioC = ?,
-//         Area_LoteC = ?,
-//         EstadoC = ?
-//     WHERE ID_Comercial = ?
-//     `
-
-//     let values = [Tipocomercial, Nombre, Ciudad, Barrio, Tiposervicio, Areaconstruida, Anoconstruccion, Imagen, Enlace,
-//     Precio, Arealote, Estado, comercialId]
-
-//     db.query(query, values, (err, result) => {
-//         if(err){
-//             res.status(500).send(`Error al actualizar comercial con id ${comercialId}`)
-//             console.log("No se ha podido actualizar", err);
-//         }
-
-//         res.status(200).send("Comercial Actualizado con exito")
-//     })
-// }
-
-
+//Actualizar el comercial
 
 const updateComercial = (req,res) => {
     let comercialId = req.params.id
@@ -239,6 +205,8 @@ const updateComercial = (req,res) => {
 }
 
 
+//Actualizar la residencia
+
 const updateResidencial = (req, res) => {
     let residenciaId = req.params.id
     let requestBody = req.body
@@ -266,12 +234,6 @@ const updateResidencial = (req, res) => {
             return res.json(result[0])
         });
     }else{
-
-
-        // if(requestBody.hasOwnProperty("Tipocomercial")){
-        //     requestBody.TipoC = requestBody.Tipocomercial
-        //     delete requestBody.Tipocomercial
-        // }
 
         if(requestBody.hasOwnProperty("Tiporesidencia")){
             requestBody.TipoR = requestBody.Tiporesidencia

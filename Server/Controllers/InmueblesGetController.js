@@ -4,7 +4,7 @@ const { json } = require('body-parser')
 
 
 
-
+//Función para filtrar en residencias
 
 const residencialFilter = (req,res) => {
     let mensajerespuesta;
@@ -70,9 +70,7 @@ const residencialFilter = (req,res) => {
 
 
 
-
-
-
+//Funcion para filtrar por comercial
 
 const comercialFilter = (req, res) => {
     let mensajerespuesta;
@@ -128,6 +126,9 @@ const comercialFilter = (req, res) => {
 }
 
 
+
+//Funcion para obtener las propiedades residenciales según el usuario que ingrese al portal
+
 const residenciaByMail = (req,res) => {
 
     const personMail = req.params.mail
@@ -151,6 +152,9 @@ const residenciaByMail = (req,res) => {
 }
 
 
+
+//Funcion para obtener las propiedades comerciales según el usuario que entre al portal
+
 const comercialByMail = (req, res) => {
     const personMail = req.params.mail
 
@@ -172,6 +176,7 @@ const comercialByMail = (req, res) => {
     })
 }
 
+//Obtener residencia según el ID
 
 const getResidenciaById = (req,res) => {
     const residenciaId = req.params.id
@@ -197,6 +202,8 @@ const getResidenciaById = (req,res) => {
 
 }
 
+//Obtener comercial según el id
+
 const getComercialById = (req,res) => {
     const comercialId = req.params.id
 
@@ -217,6 +224,9 @@ const getComercialById = (req,res) => {
         res.json(result)
     })
 }
+
+
+//Generar lead de residencia
 
 const leadResidencia = (req,res,next) => {
     let result;
@@ -288,6 +298,9 @@ Más Información: ${EnlaceR} 🆙\n
     }
 
 }
+
+
+//Generar lead de Comercial
 
 const leadComercial = (req, res, next) => {
     let result;
