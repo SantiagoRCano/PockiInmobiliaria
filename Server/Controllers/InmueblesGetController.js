@@ -1,4 +1,6 @@
+const { query } = require('express')
 const db = require('../Database/database.js')
+const { json } = require('body-parser')
 
 
 
@@ -8,7 +10,7 @@ const residencialFilter = (req,res) => {
     let query = 
     `
     SELECT residencial.ID_Inmobiliaria,ID_Residencial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoR, NombreR, HabitacionR,BanosR,
-    ParqueaderosR,CiudadR,BarrioR,Unidad_CerradaR,Area_ConstruidaR,PrecioR,Ano_ConstruccionR,Tipo_ServicioR,
+    ParqueaderosR,CiudadR,Celular,BarrioR,Unidad_CerradaR,Area_ConstruidaR,PrecioR,Ano_ConstruccionR,Tipo_ServicioR,
     Area_Lote,ImagenR,EnlaceR,EstadoR
     FROM inmobiliaria 
     INNER JOIN residencial ON residencial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria 
@@ -57,7 +59,7 @@ const residencialFilter = (req,res) => {
 const comercialFilter = (req, res) => {
     let query =
     `
-    SELECT comercial.ID_Inmobiliaria,ID_Comercial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoC,NombreC,CiudadC,BarrioC,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
+    SELECT comercial.ID_Inmobiliaria,ID_Comercial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,Celular,TipoC,NombreC,CiudadC,BarrioC,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,
     Area_LoteC,ImagenC,EnlaceC
     FROM inmobiliaria
     INNER JOIN comercial ON comercial.ID_Inmobiliaria = inmobiliaria.ID_Inmobiliaria 
@@ -181,34 +183,131 @@ const getComercialById = (req,res) => {
     })
 }
 
-
-const generateLead = (req, res, next) => {
+const leadResidencia = (req,res,next) => {
     let result;
-    const body = req.body
+    let id = req.body.idR
+    
 
-    const obtenerFecha = () => {
-        const opcionesFechaHora  = {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-            timeZone: 'America/Bogota',
+    try{
+        const getDate = () => {
+            let optionsDateHour = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true, // Usa el formato de 12 horas
+                timeZone: 'America/Bogota'
+            }
+
+            const dateHour = new Date()
+            const date = new Intl.DateTimeFormat('es-CO', optionsDateHour).format(dateHour)
+
+            return date;    
         }
 
-        const fecha = new Date()
-        const formatoFechaHora = new Intl.DateTimeFormat('es-CO', opcionesFechaHora).format(fecha).toString()
+        result = 
+        `
+        SELECT ID_Residencial,Celular,Area_Lote,NombreR,HabitacionR,BanosR,ParqueaderosR,CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,Area_ConstruidaR,
+        Unidad_CerradaR,Ano_ConstruccionR,ImagenR,EnlaceR,PrecioR FROM inmobiliaria INNER JOIN residencial ON inmobiliaria.ID_Inmobiliaria = residencial.ID_Inmobiliaria
+        WHERE ID_Residencial = ?;
+        `
+        
+        db.query(result, [id],(err, response) => {
+            if (err) {
+                return res.status(500).json({ error: 'Error en la consulta a la base de datos' });
+            }
+
+            const { Celular, ImagenR,Area_Lote,NombreR,HabitacionR,BanosR,Ano_ConstruccionR,ParqueaderosR,CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,TipoR,Area_ConstruidaR,
+            EnlaceR,PrecioR, } = response[0]
+
+            const infoJson = {
+                Imagen: ImagenR,
+                Asesor: Celular,
+                Mensaje: `Alejo con número de teléfono: 5733293124 el ${getDate()} se encuentra interesado en el inmueble.\n
+Nombre: ${NombreR} 🏡\n
+Zona: ${BarrioR} 📌\n
+Tipo: ${Tipo_ServicioR}🏡 \n
+Ciudad: ${CiudadR} 🌇 \n
+Area: ${Area_ConstruidaR} 🌇\n
+Alcobas: ${HabitacionR} 🛌 \n
+Baños: ${BanosR} 🚿\n
+Garaje: ${ParqueaderosR} 🚗\n
+Unidad Cerrada: ${Unidad_CerradaR} 🏘️\n
+Año de construcción: ${Ano_ConstruccionR} 🏗️\n
+Precio: ${PrecioR} 💰🪙\n
+Más Información: ${EnlaceR} 🆙\n
+                `
+            }
 
 
-        return formatoFechaHora
+            res.json(infoJson)
+        });
+
+    }catch(err){
+        next(err)
     }
 
-    result = obtenerFecha()
-
-    res.send(result)
-    
-    
 }
 
-module.exports = { residencialFilter, comercialFilter, residenciaByMail, comercialByMail, getResidenciaById,getComercialById, generateLead }
+const leadComercial = (req, res, next) => {
+    let result;
+    let id = req.body.idC
+
+    try{
+        const getDate = () => {
+            let optionsDateHour = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true, // Usa el formato de 12 horas
+                timeZone: 'America/Bogota'
+            }
+
+            const dateHour = new Date()
+            const date = new Intl.DateTimeFormat('es-CO', optionsDateHour).format(dateHour)
+
+            return date;    
+        }
+
+        result = 
+        `
+        SELECT ID_Comercial,Celular,TipoC,Tipo_ServicioC,NombreC,CiudadC,BarrioC,AreaC,Area_LoteC,Ano_ConstruccionC, ImagenC,EnlaceC,PrecioC 
+        FROM inmobiliaria INNER JOIN comercial ON inmobiliaria.ID_Inmobiliaria = comercial.ID_Inmobiliaria 
+        WHERE ID_Comercial = ?;
+        `
+        
+        db.query(result, [id], (err, response) => {
+            if (err) {
+                return res.status(500).json({ error: 'Error en la consulta a la base de datos' });
+            }
+
+            const { Celular, TipoC, Tipo_ServicioC, NombreC, CiudadC, BarrioC, AreaC, Area_LoteC, Ano_ConstruccionC, ImagenC, EnlaceC, PrecioC } = response[0]
+
+            const infoJson = {
+                Imagen: ImagenC,
+                Asesor: Celular,
+                Mensaje: `Alejo con número de teléfono: 5733293124 el ${getDate()} se encuentra interesado en el inmueble.\n
+Nombre: ${NombreC} 🏡\n
+Zona: ${BarrioC} 📌\n
+Tipo: ${TipoC}🏡 \n
+Tipo de Servicio: ${Tipo_ServicioC}
+Ciudad: ${CiudadC} 🌇 \n
+Area: ${AreaC} 🌇\n
+Año de construcción: ${Ano_ConstruccionC} 🏗️\n
+Precio: ${PrecioC} 💰🪙\n
+Más Información: ${EnlaceC} 🆙\n 
+                `
+            }
+
+            res.json(infoJson)
+        })
+
+    }catch(err){
+        next(err)
+    }
+}
+
+module.exports = { residencialFilter, comercialFilter, residenciaByMail, comercialByMail, getResidenciaById,getComercialById, leadResidencia,leadComercial }
