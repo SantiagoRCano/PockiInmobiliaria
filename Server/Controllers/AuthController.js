@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken')
 
 
 
+//Verificar usuario y dar token
+
 const verifyUser =  async(req, res) => {
     const { Correo, Contraseña } = req.body
 

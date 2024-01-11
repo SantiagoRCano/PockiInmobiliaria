@@ -62,6 +62,7 @@ const residencialFilter = (req,res) => {
         }else{
             res.json(mensajerespuesta)
         }
+        
 
         
     })
@@ -253,7 +254,7 @@ const leadResidencia = (req,res,next) => {
 
         result = 
         `
-        SELECT ID_Residencial,Celular,Area_Lote,NombreR,HabitacionR,BanosR,ParqueaderosR,CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,Area_ConstruidaR,
+        SELECT ID_Residencial,Celular,TipoR,Area_Lote,NombreR,HabitacionR,BanosR,ParqueaderosR,CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,Area_ConstruidaR,
         Unidad_CerradaR,Ano_ConstruccionR,ImagenR,EnlaceR,PrecioR FROM inmobiliaria INNER JOIN residencial ON inmobiliaria.ID_Inmobiliaria = residencial.ID_Inmobiliaria
         WHERE ID_Residencial = ?;
         `
@@ -276,7 +277,8 @@ const leadResidencia = (req,res,next) => {
                 Mensaje: `Alejo con número de teléfono: 5733293124 el ${getDate()} se encuentra interesado en el inmueble.\n
 Nombre: ${NombreR} 🏡\n
 Zona: ${BarrioR} 📌\n
-Tipo: ${Tipo_ServicioR}🏡 \n
+Tipo: ${TipoR}🏡 \n
+Tipo de servicio: ${Tipo_ServicioR}
 Ciudad: ${CiudadR} 🌇 \n
 Area: ${Area_ConstruidaR} 🌇\n
 Alcobas: ${HabitacionR} 🛌 \n
