@@ -7,6 +7,8 @@ const { json } = require('body-parser')
 
 
 const residencialFilter = (req,res) => {
+    let mensajerespuesta;
+
     let query = 
     `
     SELECT residencial.ID_Inmobiliaria,ID_Residencial,Nombre_Inmobiliaria,Correo_Inmobiliaria,Telefono_Inmobiliaria,TipoR, NombreR, HabitacionR,BanosR,
@@ -45,7 +47,23 @@ const residencialFilter = (req,res) => {
             res.status(500).json({ error: "Error al obtener residencias"})
             return
         }
-        res.json(result)
+        
+      
+
+        if(result.length > 0){
+            mensajerespuesta = result
+        }else{
+            mensajerespuesta = { Error: "Ups😞, estuvimos buscando en el banco de propiedades de nuestras inmobiliarias suscritas 🔍y no encontramos opciones que se ajusten a tus criterios seleccionados📋, prueba con otras características y buscaremos nuevamente para ti, escribele a 🤖Pocki SALIR e inicia de nuevo."}
+        }
+
+
+        if(result.length === 0){
+            res.status(400).json(mensajerespuesta)
+        }else{
+            res.json(mensajerespuesta)
+        }
+
+        
     })
 
 }
@@ -87,6 +105,7 @@ const comercialFilter = (req, res) => {
             res.status(500).json({ error: "Error al obtener inmueble comercial"})
             return
         }
+
         res.json(result)
     })
 
