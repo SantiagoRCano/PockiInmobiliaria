@@ -19,6 +19,7 @@ router.get('/UserResidencia/:mail', authenticateToken,propiedadesInmuebles.resid
 router.get('/UserComercial/:mail', authenticateToken,propiedadesInmuebles.comercialByMail)
 router.get('/residenciaById/:id', authenticateToken, propiedadesInmuebles.getResidenciaById)
 router.get('/comercialById/:id', authenticateToken,propiedadesInmuebles.getComercialById)
+router.get('/televisores', propiedadesInmuebles.dataTelevisores)
 
 
 

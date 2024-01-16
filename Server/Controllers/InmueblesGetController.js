@@ -369,6 +369,17 @@ const getComercialById = (req,res) => {
 // }
 
 
+const dataTelevisores = (req,res,next) => {
+    let datosQuemados = [
+        {Nombre: 'Televisor 43 pulgadas Smart Android Ref. 43LO69', Comercial: 'Falabella', Precio: '979.900$', Enlace: 'https://www.falabella.com.co/falabella-co/product/122250224/Televisor-43-pulgadas-Smart-Android-Ref.-43LO69/122250225'},
+        {Nombre: 'Televisor 43 Pulgadas FHD HYLED4321AIM Negro', Comercial: 'Homecenter', Precio: '1.379.900$', Enlace: 'https://www.homecenter.com.co/homecenter-co/product/498957/televisor-43-pulgadas-fhd-hyled4321aim-negro/498957/'},
+        {Nombre: 'Televisor CAIXUN 50 Pulgadas LED Uhd4K Smart TV C50VAUG', Comercial: 'Exito', Precio: '1.279.900$', Enlace: 'https://www.exito.com/televisor-caixun-50-pulgadas-led-uhd-4k-smart-tv-led-2023-3131838/p'}
+    ]
+    
+    res.json(datosQuemados)
+    
+}
+
 
 
 
@@ -468,38 +479,38 @@ const leadResidenciaUrl = (req,res,next) => {
         `
         
         db.query(result, [id],(err, response) => {
-            if (err) {
-                return res.status(500).json({ error: 'Error en la consulta a la base de datos' });
-            }
+//             if (err) {
+//                 return res.status(500).json({ error: 'Error en la consulta a la base de datos' });
+//             }
 
-            if(response.length === 0){
-                return res.status(400).json({ Error: 'No se ha encontrado ningún resultado para el ID_Residencial proporcionado'})
-            }
+//             if(response.length === 0){
+//                 return res.status(400).json({ Error: 'No se ha encontrado ningún resultado para el ID_Residencial proporcionado'})
+//             }
 
-            const { Celular, ImagenR,Area_Lote,NombreR,HabitacionR,BanosR,Ano_ConstruccionR,ParqueaderosR,CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,TipoR,Area_ConstruidaR,
-            EnlaceR,PrecioR, } = response[0]
+//             const { Celular, ImagenR,Area_Lote,NombreR,HabitacionR,BanosR,Ano_ConstruccionR,ParqueaderosR,CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,TipoR,Area_ConstruidaR,
+//             EnlaceR,PrecioR, } = response[0]
 
-            const infoJson = {
-                Imagen: ImagenR,
-                Asesor: Celular,
-                Mensaje: `Alejo con número de teléfono: 5733293124 el ${getDate()} se encuentra interesado en el inmueble.\n
-Nombre: ${NombreR} 🏡\n
-Zona: ${BarrioR} 📌\n
-Tipo: ${TipoR}🏡 \n
-Tipo de servicio: ${Tipo_ServicioR}
-Ciudad: ${CiudadR} 🌇 \n
-Area: ${Area_ConstruidaR} 🌇\n
-Alcobas: ${HabitacionR} 🛌 \n
-Baños: ${BanosR} 🚿\n
-Garaje: ${ParqueaderosR} 🚗\n
-Unidad Cerrada: ${Unidad_CerradaR} 🏘️\n
-Año de construcción: ${Ano_ConstruccionR} 🏗️\n
-Precio: ${PrecioR} 💰🪙\n
-Más Información: ${EnlaceR} 🆙\n
-                `
-            }
+//             const infoJson = {
+//                 Imagen: ImagenR,
+//                 Asesor: Celular,
+//                 Mensaje: `Alejo con número de teléfono: 5733293124 el ${getDate()} se encuentra interesado en el inmueble.\n
+// Nombre: ${NombreR} 🏡\n
+// Zona: ${BarrioR} 📌\n
+// Tipo: ${TipoR}🏡 \n
+// Tipo de servicio: ${Tipo_ServicioR}
+// Ciudad: ${CiudadR} 🌇 \n
+// Area: ${Area_ConstruidaR} 🌇\n
+// Alcobas: ${HabitacionR} 🛌 \n
+// Baños: ${BanosR} 🚿\n
+// Garaje: ${ParqueaderosR} 🚗\n
+// Unidad Cerrada: ${Unidad_CerradaR} 🏘️\n
+// Año de construcción: ${Ano_ConstruccionR} 🏗️\n
+// Precio: ${PrecioR} 💰🪙\n
+// Más Información: ${EnlaceR} 🆙\n
+//                 `
+//             }
 
-            res.json(infoJson)
+            res.json(response)
         });
 
 
@@ -513,4 +524,4 @@ Más Información: ${EnlaceR} 🆙\n
 
 
 
-module.exports = { residencialFilter, comercialFilter, residenciaByMail, comercialByMail, getResidenciaById,getComercialById, leadComercialUrl, leadResidenciaUrl }
+module.exports = { residencialFilter, comercialFilter, residenciaByMail, comercialByMail, getResidenciaById,getComercialById, leadComercialUrl, leadResidenciaUrl, dataTelevisores }
