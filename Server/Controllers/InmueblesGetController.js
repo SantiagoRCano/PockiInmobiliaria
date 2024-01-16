@@ -371,9 +371,9 @@ const getComercialById = (req,res) => {
 
 const dataTelevisores = (req,res,next) => {
     let datosQuemados = [
-        {Nombre: 'Televisor 43 pulgadas Smart Android Ref. 43LO69', Comercial: 'Falabella', Precio: '979.900$', Enlace: 'https://www.falabella.com.co/falabella-co/product/122250224/Televisor-43-pulgadas-Smart-Android-Ref.-43LO69/122250225'},
-        {Nombre: 'Televisor 43 Pulgadas FHD HYLED4321AIM Negro', Comercial: 'Homecenter', Precio: '1.379.900$', Enlace: 'https://www.homecenter.com.co/homecenter-co/product/498957/televisor-43-pulgadas-fhd-hyled4321aim-negro/498957/'},
-        {Nombre: 'Televisor CAIXUN 50 Pulgadas LED Uhd4K Smart TV C50VAUG', Comercial: 'Exito', Precio: '1.279.900$', Enlace: 'https://www.exito.com/televisor-caixun-50-pulgadas-led-uhd-4k-smart-tv-led-2023-3131838/p'}
+        {Nombre: 'Televisor 43 pulgadas Smart Android Ref. 43LO69', Comercial: 'Falabella', Precio: '$979.900', Enlace: 'https://www.falabella.com.co/falabella-co/product/122250224/Televisor-43-pulgadas-Smart-Android-Ref.-43LO69/122250225',Imagen:'https://i.postimg.cc/q7jp5LD5/televisor1.jpg'},
+        {Nombre: 'Televisor 43 Pulgadas FHD HYLED4321AIM Negro', Comercial: 'Homecenter', Precio: '$1.379.900', Enlace: 'https://www.homecenter.com.co/homecenter-co/product/498957/televisor-43-pulgadas-fhd-hyled4321aim-negro/498957/', Imagen: 'https://i.postimg.cc/k5ftvWQn/televisor2.png'},
+        {Nombre: 'Televisor CAIXUN 50 Pulgadas LED Uhd4K Smart TV C50VAUG', Comercial: 'Exito', Precio: '$1.279.900', Enlace: 'https://www.exito.com/televisor-caixun-50-pulgadas-led-uhd-4k-smart-tv-led-2023-3131838/p', Imagen: 'https://i.postimg.cc/HkttFcwN/televisor3.png'}
     ]
     
     res.json(datosQuemados)
