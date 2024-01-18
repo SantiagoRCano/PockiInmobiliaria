@@ -249,18 +249,7 @@ const productos = (req, res, next) => {
     let datos = [
         {
             Image: 'https://i.imgur.com/QGgM211.png',
-            Text: `*Coca Cola Normal x 600 ml*
-            *Éxito*: 4130
-            https://www.exito.com/gaseosa-coca-cola-pet-600-ml-409900
-            *Carulla*: 4200
-            https://www.carulla.com/gaseosa-coca-cola-pet-600-ml-409900/p?&tab=coca%20cola&multipleSearch=pdp
-            *Olimpica*: 3950
-            https://www.olimpica.com/gaseosa-coca-cola-botella-no-retornable-600-ml-7702535001752-567998
-            *Jumbo*: 4190
-            https://www.tiendasjumbo.co/gaseosa-coca-cola-x-600-ml
-            *Makro*: 4100
-            https://tienda.makro.com.co/p/gaseosa-coca-cola-sabor-original-x600ml-112952
-            *Lugar más barato*: Olimpica`
+            Text: `*Alejito Santino*`
         }
     ]
 
