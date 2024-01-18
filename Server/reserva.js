@@ -280,3 +280,22 @@
 //         next(err)
 //     }
 // }
+
+
+
+//Código en botpocket
+
+// server.get('/api/getAllMessages', asyncHandler(_logController.getAllAnswer.bind(_logController)));
+
+// async getAllAnswer(req, res, next){
+//     let result;
+//     try{
+//         result = await this.manager.get(
+//             `SELECT phone,message,DATE_FORMAT(creationdate, '%Y-%m-%d') as creationdate FROM auditTrail;`
+//         )
+//     }catch(error){
+//         next(error)
+//     }
+
+//     res.json(result)
+// }

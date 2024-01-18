@@ -234,33 +234,35 @@ const getComercialById = (req,res) => {
 
 
 
-const dataTelevisores = (req,res,next) => {
-    let datosQuemados = [
-        {Id:1, Nombre: 'Televisor 43 pulgadas Smart Android Ref. 43LO69', Comercial: 'Falabella', Precio: '$979.900', Enlace: 'https://www.falabella.com.co/falabella-co/product/122250224/Televisor-43-pulgadas-Smart-Android-Ref.-43LO69/122250225',Imagen:'https://i.postimg.cc/q7jp5LD5/televisor1.jpg'},
-        {Id:2, Nombre: 'Televisor 43 Pulgadas FHD HYLED4321AIM Negro', Comercial: 'Homecenter', Precio: '$1.379.900', Enlace: 'https://www.homecenter.com.co/homecenter-co/product/498957/televisor-43-pulgadas-fhd-hyled4321aim-negro/498957/', Imagen: 'https://i.postimg.cc/k5ftvWQn/televisor2.png'},
-        {Id:3, Nombre: 'Televisor CAIXUN 50 Pulgadas LED Uhd4K Smart TV C50VAUG', Comercial: 'Exito', Precio: '$1.279.900', Enlace: 'https://www.exito.com/televisor-caixun-50-pulgadas-led-uhd-4k-smart-tv-led-2023-3131838/p', Imagen: 'https://i.postimg.cc/HkttFcwN/televisor3.png'}
-    ]
+    const dataTelevisores = (req,res,next) => {
+        let datosQuemados = [
+            {Id:1, Nombre: 'Televisor 43 pulgadas Smart Android Ref. 43LO69', Comercial: 'Falabella', Precio: '$979.900', Enlace: 'https://www.falabella.com.co/falabella-co/product/122250224/Televisor-43-pulgadas-Smart-Android-Ref.-43LO69/122250225',Imagen:'https://i.postimg.cc/q7jp5LD5/televisor1.jpg'},
+            {Id:2, Nombre: 'Televisor 43 Pulgadas FHD HYLED4321AIM Negro', Comercial: 'Homecenter', Precio: '$1.379.900', Enlace: 'https://www.homecenter.com.co/homecenter-co/product/498957/televisor-43-pulgadas-fhd-hyled4321aim-negro/498957/', Imagen: 'https://i.postimg.cc/k5ftvWQn/televisor2.png'},
+            {Id:3, Nombre: 'Televisor CAIXUN 50 Pulgadas LED Uhd4K Smart TV C50VAUG', Comercial: 'Exito', Precio: '$1.279.900', Enlace: 'https://www.exito.com/televisor-caixun-50-pulgadas-led-uhd-4k-smart-tv-led-2023-3131838/p', Imagen: 'https://i.postimg.cc/HkttFcwN/televisor3.png'}
+        ]
 
 
-    res.json(datosQuemados)
-}
+        res.json(datosQuemados)
+    }
 
 const productos = (req, res, next) => {
-    let datos = {
-        Image: 'https://i.imgur.com/QGgM211.png',
-        Text: `*Coca Cola Normal x 600 ml*
-        *Éxito*: 4130
-        https://www.exito.com/gaseosa-coca-cola-pet-600-ml-409900
-        *Carulla*: 4200
-        https://www.carulla.com/gaseosa-coca-cola-pet-600-ml-409900/p?&tab=coca%20cola&multipleSearch=pdp
-        *Olimpica*: 3950
-        https://www.olimpica.com/gaseosa-coca-cola-botella-no-retornable-600-ml-7702535001752-567998
-        *Jumbo*: 4190
-        https://www.tiendasjumbo.co/gaseosa-coca-cola-x-600-ml
-        *Makro*: 4100
-        https://tienda.makro.com.co/p/gaseosa-coca-cola-sabor-original-x600ml-112952
-        *Lugar más barato*: Olimpica`
-    }
+    let datos = [
+        {
+            Image: 'https://i.imgur.com/QGgM211.png',
+            Text: `*Coca Cola Normal x 600 ml*
+            *Éxito*: 4130
+            https://www.exito.com/gaseosa-coca-cola-pet-600-ml-409900
+            *Carulla*: 4200
+            https://www.carulla.com/gaseosa-coca-cola-pet-600-ml-409900/p?&tab=coca%20cola&multipleSearch=pdp
+            *Olimpica*: 3950
+            https://www.olimpica.com/gaseosa-coca-cola-botella-no-retornable-600-ml-7702535001752-567998
+            *Jumbo*: 4190
+            https://www.tiendasjumbo.co/gaseosa-coca-cola-x-600-ml
+            *Makro*: 4100
+            https://tienda.makro.com.co/p/gaseosa-coca-cola-sabor-original-x600ml-112952
+            *Lugar más barato*: Olimpica`
+        }
+    ]
 
     res.json(datos)
 }
@@ -324,43 +326,43 @@ const productos = (req, res, next) => {
 // }
 
 
-const enviarWsp = async(req, res) => {
-    try{
-        const mensaje = {
-            to: req.body.phone,
-            type: 'image',
-            image: {
-                link: req.body.imagen,
-                caption: req.body.caption,
-            },
-            messaging_product: 'whatsapp',
-        };
+// const enviarWsp = async(req, res) => {
+//     try{
+//         const mensaje = {
+//             to: req.body.phone,
+//             type: 'image',
+//             image: {
+//                 link: req.body.imagen,
+//                 caption: req.body.caption,
+//             },
+//             messaging_product: 'whatsapp',
+//         };
 
-        const config = {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-        };
-
-
-        axios.post(urlWsp, mensaje, config)
-            .then(response => {
-                console.log('Mensaje enviado con exito', response.data);
-                res.status(200).json({ success: true, message: 'Mensaje enviado con éxito' });
-            })
-            .catch(err =>{
-                console.error('Error al enviar el mensaje:', err.response.data);
-                res.status(500).json({ success: false, message: 'Error al enviar el mensaje' });
-            })
-    }catch(error){
-        console.error('Error inesperado:', error);
-        res.status(500).json({ success: false, message: 'Error inesperado' });
-    }
-}
+//         const config = {
+//             headers: {
+//               'Content-Type': 'application/json',
+//               'Authorization': `Bearer ${token}`,
+//             },
+//         };
 
 
+//         axios.post(urlWsp, mensaje, config)
+//             .then(response => {
+//                 console.log('Mensaje enviado con exito', response.data);
+//                 res.status(200).json({ success: true, message: 'Mensaje enviado con éxito' });
+//             })
+//             .catch(err =>{
+//                 console.error('Error al enviar el mensaje:', err.response.data);
+//                 res.status(500).json({ success: false, message: 'Error al enviar el mensaje' });
+//             })
+//     }catch(error){
+//         console.error('Error inesperado:', error);
+//         res.status(500).json({ success: false, message: 'Error inesperado' });
+//     }
+// }
 
 
 
-module.exports = { residencialFilter, comercialFilter,residenciaByMail, comercialByMail, getResidenciaById,getComercialById, dataTelevisores, enviarWsp,productos }
+
+
+module.exports = { residencialFilter, comercialFilter,residenciaByMail, comercialByMail, getResidenciaById,getComercialById, dataTelevisores,productos }

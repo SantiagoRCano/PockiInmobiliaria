@@ -22,6 +22,9 @@ router.get('/UserComercial/:mail', authenticateToken,propiedadesInmuebles.comerc
 router.get('/residenciaById/:id', authenticateToken, propiedadesInmuebles.getResidenciaById)
 router.get('/comercialById/:id', authenticateToken,propiedadesInmuebles.getComercialById)
 router.get('/televisores', propiedadesInmuebles.dataTelevisores)
+
+
+
 router.get('/productos', propiedadesInmuebles.productos)
 
 
@@ -32,7 +35,7 @@ router.get('/productos', propiedadesInmuebles.productos)
 router.post('/loginUser', auth.verifyUser)
 router.post('/addResidencia', authenticateToken,guardarInmuebles.addResidencia)
 router.post('/addComercial', authenticateToken,guardarInmuebles.addComercial)
-router.post('/enviarWsp', propiedadesInmuebles.enviarWsp)
+// router.post('/enviarWsp', propiedadesInmuebles.enviarWsp)
 router.post('/addUser', guardarInmuebles.addUser)
 
 
