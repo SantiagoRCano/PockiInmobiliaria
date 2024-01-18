@@ -249,7 +249,12 @@ const productos = (req, res, next) => {
     let datos = [
         {
             Image: 'https://i.imgur.com/QGgM211.png',
-            Text: `*Alejo\nSantino\nMono\nSimón gay*.`
+            Text: 
+            `
+            Alejo
+            Miguel 
+            Andres
+            `
         }
     ]
 
