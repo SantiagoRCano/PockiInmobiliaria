@@ -248,7 +248,7 @@ const getComercialById = (req,res) => {
 const productos = (req, res, next) => {
     let datos = [
         {
-            Image: "Link imagen",
+            Image: "https://i.imgur.com/QGgM211.png",
             Nombre: "Coca Cola Normal x600 ml",
             PrecioExito: 4130,
             LinkExito: "https://www.exito.com/gaseosa-coca-cola-pet-600-ml-409900",
