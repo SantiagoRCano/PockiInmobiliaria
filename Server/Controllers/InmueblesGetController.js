@@ -248,13 +248,18 @@ const getComercialById = (req,res) => {
 const productos = (req, res, next) => {
     let datos = [
         {
-            Image: 'https://i.imgur.com/QGgM211.png',
-            Text: 
-            `
-            Alejo
-            Miguel 
-            Andres
-            `
+            Image: "Link imagen",
+            Nombre: "Coca Cola Normal x600 ml",
+            PrecioExito: 4130,
+            LinkExito: "https://www.exito.com/gaseosa-coca-cola-pet-600-ml-409900",
+            PrecioCarulla: 4200,
+            LinkCarulla: "https://www.carulla.com/gaseosa-coca-cola-pet-600-ml-409900/p?&tab=coca%20cola&multipleSearch=pdp",
+            PrecioOlimpica: 3950,
+            LinkOlimpica: "https://www.olimpica.com/gaseosa-coca-cola-botella-no-retornable-600-ml-7702535001752-567998",
+            PrecioJumbo: 4190,
+            LinkJumbo: "https://www.tiendasjumbo.co/gaseosa-coca-cola-x-600-ml",
+            PrecioMakro: 4100,
+            LinkMakro: "https://tienda.makro.com.co/p/gaseosa-coca-cola-sabor-original-x600ml-112952"
         }
     ]
 
