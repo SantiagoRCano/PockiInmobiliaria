@@ -196,8 +196,30 @@ const leadResidenciaByMail = (req, res) => {
 
     db.query(query, [personMail], (err,result) => {
         if(err){
-            console.log(`No se ha podido obtener inmuebles con el correo`, err);
-            res.status(500).json({ error: "Error al obtener inmuebles"})
+            console.log(`No se ha podido obtener leads con el correo`, err);
+            res.status(500).json({ error: "Error al obtener leads"})
+            return
+        }
+        res.json(result)
+    })
+}
+
+
+const leadComercialByMail = (req, res) => {
+    const personMail = req.params.mail
+
+    let query =
+    `
+    SELECT Idlead,NombreC,Nombrecliente,Numerocliente,Fechalead FROM leadscomercial
+    INNER JOIN comercial ON leadscomercial.Idcomercial = comercial.ID_Comercial
+    INNER JOIN inmobiliaria ON leadscomercial.Idinmobiliaria = inmobiliaria.ID_Inmobiliaria
+    WHERE Correo_Inmobiliaria = 'santinini@gmail.com'
+    `
+
+    db.query(query, [personMail], (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener leads con el correo`, err);
+            res.status(500).json({ error: "Error al obtener leads"})
             return
         }
         res.json(result)
@@ -388,4 +410,4 @@ const productos = (req, res, next) => {
 
 
 module.exports = { residencialFilter, comercialFilter,residenciaByMail, comercialByMail, getResidenciaById,getComercialById, dataTelevisores,productos
-, leadResidenciaByMail }
+, leadResidenciaByMail, leadComercialByMail }
