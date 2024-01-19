@@ -181,6 +181,29 @@ const comercialByMail = (req, res) => {
     })
 }
 
+//Funcion para obtener los leads residenciales según el usuario que tenga el portal
+
+const leadResidenciaByMail = (req, res) => {
+    const personMail = req.params.mail
+
+    let query =
+    `
+    SELECT Idlead,NombreR,Nombrecliente,Numerocliente,Fechalead FROM leadsresidencia
+    INNER JOIN residencial ON leadsresidencia.Idresidencia = residencial.ID_Residencial
+    INNER JOIN inmobiliaria ON leadsresidencia.Idinmobiliaria = inmobiliaria.ID_Inmobiliaria
+    WHERE Correo_Inmobiliaria = ?;
+    `
+
+    db.query(query, [personMail], (err,result) => {
+        if(err){
+            console.log(`No se ha podido obtener inmuebles con el correo`, err);
+            res.status(500).json({ error: "Error al obtener inmuebles"})
+            return
+        }
+        res.json(result)
+    })
+}
+
 //Obtener residencia según el ID
 
 const getResidenciaById = (req,res) => {
@@ -364,4 +387,5 @@ const productos = (req, res, next) => {
 
 
 
-module.exports = { residencialFilter, comercialFilter,residenciaByMail, comercialByMail, getResidenciaById,getComercialById, dataTelevisores,productos }
+module.exports = { residencialFilter, comercialFilter,residenciaByMail, comercialByMail, getResidenciaById,getComercialById, dataTelevisores,productos
+, leadResidenciaByMail }
