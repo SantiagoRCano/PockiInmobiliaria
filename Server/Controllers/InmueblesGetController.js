@@ -45,6 +45,9 @@ const residencialFilter = (req,res) => {
         query += ` AND Area_Lote = ${Arealote}`
     }
 
+
+    query += ` AND EstadoR LIKE 'Disponible'`
+
     db.query(query, (err,result) => {
         if(err){
             console.log(`No se ha podido obtener las residencias`, err);
@@ -103,6 +106,9 @@ const comercialFilter = (req, res) => {
     }else if(Arealote == 0 && Arealote != null){
         query += ` AND Area_LoteC = ${Arealote}`
     }
+
+
+    query += ` AND EstadoC LIKE 'Disponible'`
 
     db.query(query, (err,result) => {
         if(err){
