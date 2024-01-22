@@ -19,8 +19,10 @@ router.get('/comercialFilter',propiedadesInmuebles.comercialFilter)
 // router.get('/residenciaUrl/:idR', propiedadesInmuebles.leadResidenciaUrl)
 router.get('/UserResidencia/:mail', authenticateToken,propiedadesInmuebles.residenciaByMail)
 router.get('/UserComercial/:mail', authenticateToken,propiedadesInmuebles.comercialByMail)
-router.get('/UserLeadResidencia/:mail', propiedadesInmuebles.leadResidenciaByMail)
-router.get('/UserLeadComercial/:mail', propiedadesInmuebles.leadComercialByMail)
+router.get('/UserLeadResidencia/:mail', propiedadesInmuebles.leadRMail)
+router.get('/UserLeadComercial/:mail', propiedadesInmuebles.leadCMail)
+
+
 router.get('/residenciaById/:id', authenticateToken, propiedadesInmuebles.getResidenciaById)
 router.get('/comercialById/:id', authenticateToken,propiedadesInmuebles.getComercialById)
 router.get('/televisores', propiedadesInmuebles.dataTelevisores)
