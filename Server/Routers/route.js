@@ -37,6 +37,8 @@ router.get('/productos', propiedadesInmuebles.productos)
 router.post('/loginUser', auth.verifyUser)
 router.post('/addResidencia', authenticateToken,guardarInmuebles.addResidencia)
 router.post('/addComercial', authenticateToken,guardarInmuebles.addComercial)
+router.post('/addLeadComercial', guardarInmuebles.addLeadComercial)
+router.post('/addLeadResidencia', guardarInmuebles.addLeadResidencia)
 // router.post('/enviarWsp', propiedadesInmuebles.enviarWsp)
 router.post('/addUser', guardarInmuebles.addUser)
 

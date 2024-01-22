@@ -58,6 +58,8 @@ const addResidencia = (req, res) => {
 }
 
 
+
+
 //Crear un comercial
 
 const addComercial = (req,res) => {
@@ -80,6 +82,45 @@ const addComercial = (req,res) => {
         res.status(200).send("Comercial creado con exito")
     })
 }
+
+const addLeadComercial = (req, res) => {
+    const { Idinmobiliaria, Idcomercial, Nombrecliente, Numerocliente } = req.body
+
+    let query =
+    `
+    INSERT INTO leadscomercial(Idinmobiliaria, Idcomercial, Nombrecliente, Numerocliente)
+    VALUES (?,?,?,?)`
+
+    db.query(query, [Idinmobiliaria, Idcomercial, Nombrecliente, Numerocliente], (err,result) => {
+        if(err){
+            res.status(500).send("Error al crear lead comercial")
+            console.log("No se ha podido generar un lead comercial", err);
+        }
+
+        res.status(200).send('Lead creado con exito')
+    })
+}
+
+const addLeadResidencia = (req, res) => {
+    const { Idinmobiliaria, Idresidencia, Nombrecliente, Numerocliente } = req.body
+
+    let query =
+    `
+    INSERT INTO leadsresidencia(Idinmobiliaria, Idresidencia, Nombrecliente, Numerocliente)
+    VALUES (?,?,?,?)
+    `
+
+    db.query(query, [Idinmobiliaria, Idresidencia, Nombrecliente, Numerocliente], (err, result) => {
+        if(err){
+            res.status(500).send("Error al crear lead residencia")
+            console.log("No se ha podido generar un lead residencia", err);
+        }
+
+        res.status(200).send('Lead creado con exito')
+    })
+}
+
+
 
 
 //Actualizar el comercial
@@ -348,4 +389,4 @@ const updateResidencial = (req, res) => {
 
 
 
-module.exports = { addResidencia, addComercial, addUser, updateComercial, updateResidencial }
+module.exports = { addResidencia, addComercial, addUser, updateComercial, updateResidencial, addLeadComercial, addLeadResidencia }
