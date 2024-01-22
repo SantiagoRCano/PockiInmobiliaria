@@ -48,6 +48,9 @@ router.post('/addUser', guardarInmuebles.addUser)
 router.put('/updateComercial/:id', authenticateToken,guardarInmuebles.updateComercial)
 router.put('/updateResidencial/:id', authenticateToken,guardarInmuebles.updateResidencial)
 
+//PATCH
+router.patch('/amountLead/:mail', guardarInmuebles.updateAmountLead)
+
 
 //ENDPOINTS DELETE
 router.delete('/deleteComercial/:id', authenticateToken,eliminarInmuebles.deleteComercial)

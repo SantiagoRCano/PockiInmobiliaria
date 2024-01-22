@@ -123,6 +123,14 @@ const addLeadResidencia = (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
 //Actualizar el comercial
 
 const updateComercial = (req,res) => {
@@ -386,7 +394,23 @@ const updateResidencial = (req, res) => {
 }
 
 
+const updateAmountLead = (req, res) => {
+    const itemMail = req.params.mail
+    const AmountLead = req.body.Numero
+
+    let query = `UPDATE inmobiliaria SET cantidadLeads = ? WHERE Correo_Inmobiliaria = ?`
+
+    db.query(query, [AmountLead, itemMail], (err,result) => {
+        if (err) {
+            console.error('Error al actualizar la propiedad:', err);
+            res.status(500).json({ error: 'Error interno del servidor' });
+        }
+
+        return res.json({ mensaje: "Propiedad actualizada correctamente"})
+    })
+}
 
 
 
-module.exports = { addResidencia, addComercial, addUser, updateComercial, updateResidencial, addLeadComercial, addLeadResidencia }
+
+module.exports = { addResidencia, addComercial, addUser, updateComercial, updateResidencial,updateAmountLead, addLeadComercial, addLeadResidencia }
