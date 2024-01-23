@@ -421,4 +421,7 @@ const updateAmountLead = (req, res) => {
 
 
 
-module.exports = { addResidencia, addComercial, addUser, updateComercial, updateResidencial,updateAmountLead, addLeadComercial, addLeadResidencia }
+
+
+
+module.exports = { addResidencia, addComercial, addUser, updateComercial, updateResidencial, addLeadComercial, addLeadResidencia, updateAmountLead }

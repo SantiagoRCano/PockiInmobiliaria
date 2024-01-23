@@ -25,10 +25,12 @@ router.get('/UserLeadComercial/:mail', propiedadesInmuebles.leadCMail)
 
 router.get('/residenciaById/:id', authenticateToken, propiedadesInmuebles.getResidenciaById)
 router.get('/comercialById/:id', authenticateToken,propiedadesInmuebles.getComercialById)
+router.get('/getAmountLeads/:mail', propiedadesInmuebles.getAmountLead)
+
+
+
+
 router.get('/televisores', propiedadesInmuebles.dataTelevisores)
-
-
-
 router.get('/productos', propiedadesInmuebles.productos)
 
 
@@ -49,8 +51,6 @@ router.post('/addUser', guardarInmuebles.addUser)
 //ENDPOINTS PUT
 router.put('/updateComercial/:id', authenticateToken,guardarInmuebles.updateComercial)
 router.put('/updateResidencial/:id', authenticateToken,guardarInmuebles.updateResidencial)
-
-//PATCH
 router.patch('/amountLead/:mail', guardarInmuebles.updateAmountLead)
 
 

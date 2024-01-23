@@ -231,48 +231,6 @@ const leadCMail = (req, res) => {
     })
 }
 
-// const leadResidenciaByMail = (req, res) => {
-//     const personMail = req.params.mail
-
-//     let query =
-//     `
-//     SELECT Idlead,NombreR,Nombrecliente,Numerocliente,Fechalead FROM leadsresidencia
-//     INNER JOIN residencial ON leadsresidencia.Idresidencia = residencial.ID_Residencial
-//     INNER JOIN inmobiliaria ON leadsresidencia.Idinmobiliaria = inmobiliaria.ID_Inmobiliaria
-//     WHERE Correo_Inmobiliaria = ?;
-//     `
-
-//     db.query(query, [personMail], (err,result) => {
-//         if(err){
-//             console.log(`No se ha podido obtener leads con el correo`, err);
-//             res.status(500).json({ error: "Error al obtener leads"})
-//             return
-//         }
-//         res.json(result)
-//     })
-// }
-
-
-// const leadComercialByMail = (req, res) => {
-//     const personMail = req.params.mail
-
-//     let query =
-//     `
-//     SELECT Idlead,NombreC,Nombrecliente,Numerocliente,Fechalead FROM leadscomercial
-//     INNER JOIN comercial ON leadscomercial.Idcomercial = comercial.ID_Comercial
-//     INNER JOIN inmobiliaria ON leadscomercial.Idinmobiliaria = inmobiliaria.ID_Inmobiliaria
-//     WHERE Correo_Inmobiliaria = '?'
-//     `
-
-//     db.query(query, [personMail], (err, result) => {
-//         if(err){
-//             console.log(`No se ha podido obtener leads con el correo`, err);
-//             res.status(500).json({ error: "Error al obtener leads"})
-//             return
-//         }
-//         res.json(result)
-//     })
-// }
 
 //Obtener residencia según el ID
 
@@ -361,101 +319,24 @@ const productos = (req, res, next) => {
 
 
 
-// const generateLeadResidencia = async(req, res, next) => {
-//     let result;
+const getAmountLead = (req, res) => {
+    let personEmail = req.params.mail
 
-//     const body = req.body;
+    let query = `SELECT cantidadLeads FROM inmobiliaria WHERE Correo_Inmobiliaria = ?`
 
-//     try {
-//         const getDate = () => {
-//             const opcionesFechaHora = {
-//                 year: 'numeric',
-//                 month: '2-digit',
-//                 day: '2-digit',
-//                 hour: '2-digit',
-//                 minute: '2-digit',
-//                 hour12: true,
-//                 timeZone: 'America/Bogota',
-//             };
-
-//             const fechaHora = new Date();
-//             const formatoFechaHora = new Intl.DateTimeFormat('es-CO', opcionesFechaHora).format(fechaHora);
-
-//             return formatoFechaHora;
-//         };
-
-//         result = 
-//             `
-//         SELECT ID_Residencial,Celular,TipoR,Area_Lote,NombreR,HabitacionR,BanosR,ParqueaderosR,CiudadR,BarrioR,Tipo_ServicioR,Unidad_CerradaR,Area_ConstruidaR,
-//         Unidad_CerradaR,Ano_ConstruccionR,ImagenR,EnlaceR,PrecioR FROM inmobiliaria INNER JOIN residencial ON inmobiliaria.ID_Inmobiliaria = residencial.ID_Inmobiliaria
-//         WHERE ID_Residencial = ?`;
-
-
-//         db.query(result, [body.ID_Residencial], async(err,response) => {
-//             if(response){
-//                 const message = `${body.contactName} con número de teléfono: ${body.phone} el ${getDate()} se encuentra interesado en el inmueble.\n
-// Nombre: ${response.NombreR} 🏡\n
-// Zona: ${response.BarrioR} 📌\n
-// Tipo: ${response.TipoR}🏡 \n
-// Tipo de servicio: ${response.Tipo_ServicioR}
-// Ciudad: ${response.CiudadR} 🌇 \n
-// Area: ${response.Area_ConstruidaR} 🌇\n
-// Alcobas: ${response.HabitacionR} 🛌 \n
-// Baños: ${response.BanosR} 🚿\n
-// Garaje: ${response.ParqueaderosR} 🚗\n
-// Unidad Cerrada: ${response.Unidad_CerradaR} 🏘️\n
-// Año de construcción: ${response.Ano_ConstruccionR} 🏗️\n
-// Precio: ${response.PrecioR} 💰🪙\n
-// Más Información: ${response.EnlaceR} 🆙\n`;
-//             const _botController = new botController()
-//             await _botController.sendMessageImage(response.Celular, {header: response.ImagenR, text: message})
-//         }
-//     })
-//     } catch (error) {
-//         next(error);
-//     }
-//     res.json(result);
-// }
-
-
-// const enviarWsp = async(req, res) => {
-//     try{
-//         const mensaje = {
-//             to: req.body.phone,
-//             type: 'image',
-//             image: {
-//                 link: req.body.imagen,
-//                 caption: req.body.caption,
-//             },
-//             messaging_product: 'whatsapp',
-//         };
-
-//         const config = {
-//             headers: {
-//               'Content-Type': 'application/json',
-//               'Authorization': `Bearer ${token}`,
-//             },
-//         };
-
-
-//         axios.post(urlWsp, mensaje, config)
-//             .then(response => {
-//                 console.log('Mensaje enviado con exito', response.data);
-//                 res.status(200).json({ success: true, message: 'Mensaje enviado con éxito' });
-//             })
-//             .catch(err =>{
-//                 console.error('Error al enviar el mensaje:', err.response.data);
-//                 res.status(500).json({ success: false, message: 'Error al enviar el mensaje' });
-//             })
-//     }catch(error){
-//         console.error('Error inesperado:', error);
-//         res.status(500).json({ success: false, message: 'Error inesperado' });
-//     }
-// }
+    db.query(query, [personEmail], (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener la cantidad de leads`, err);
+            res.status(500).json({ error: "Error al obtener cantidad de leads"})
+            return
+        }
+        res.json(result[0])
+    })
+}
 
 
 
 
 
 module.exports = { residencialFilter, comercialFilter,residenciaByMail, comercialByMail, getResidenciaById,getComercialById, dataTelevisores,productos
-,leadCMail, leadRMail }
+,leadCMail, leadRMail, getAmountLead }
