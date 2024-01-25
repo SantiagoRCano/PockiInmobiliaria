@@ -26,7 +26,11 @@ router.get('/UserLeadComercial/:mail', propiedadesInmuebles.leadCMail)
 router.get('/residenciaById/:id', authenticateToken, propiedadesInmuebles.getResidenciaById)
 router.get('/comercialById/:id', authenticateToken,propiedadesInmuebles.getComercialById)
 router.get('/getAmountLeads/:mail', propiedadesInmuebles.getAmountLead)
-
+router.get('/getI', propiedadesInmuebles.getAllInmobi)
+router.get('/getAllR', propiedadesInmuebles.getAllresidencias)
+router.get('/getAllC', propiedadesInmuebles.getAllComerciales)
+router.get('/getAllLeadsC', propiedadesInmuebles.getAllLeadsComercial)
+router.get('/getAllLeadsR', propiedadesInmuebles.getAllLeadsResidencias)
 
 
 

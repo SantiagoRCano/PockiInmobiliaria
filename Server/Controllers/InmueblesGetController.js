@@ -232,6 +232,7 @@ const leadCMail = (req, res) => {
 }
 
 
+
 //Obtener residencia según el ID
 
 const getResidenciaById = (req,res) => {
@@ -334,9 +335,84 @@ const getAmountLead = (req, res) => {
     })
 }
 
+const getAllInmobi = (req, res) => {
+    let query = `SELECT ID_Inmobiliaria,Nombre_Inmobiliaria,Celular,Personaencargada FROM inmobiliaria`
+
+    db.query(query, (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener las inmobiliarias`, err);
+            res.status(500).json({ error: "Error al obtener inmobiliarias"})
+            return
+        }
+
+        res.json(result)
+    })
+}
+
+
+const getAllresidencias = (req, res) => {
+    let query = `SELECT ID_Inmobiliaria,ID_Residencial,TipoR, NombreR, HabitacionR,BanosR,
+    ParqueaderosR,CiudadR,BarrioR,Unidad_CerradaR,Area_ConstruidaR,PrecioR,Ano_ConstruccionR,Tipo_ServicioR,
+    Area_Lote,ImagenR,EnlaceR,EstadoR
+    FROM residencial`
+
+    db.query(query, (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener las residencias`, err);
+            res.status(500).json({ error: "Error al obtener residencias"})
+            return
+        }
+
+        res.json(result)
+    })
+}
+
+const getAllComerciales = (req, res) => {
+    let query = ` SELECT ID_Inmobiliaria,ID_Comercial,TipoC,NombreC,CiudadC,BarrioC
+    ,AreaC,EstadoC,PrecioC,Ano_ConstruccionC,Tipo_ServicioC,Area_LoteC,ImagenC,EnlaceC
+    FROM comercial`
+
+    db.query(query, (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener los comerciales`, err);
+            res.status(500).json({ error: "Error al obtener comerciales"})
+            return
+        }
+
+        res.json(result)
+    })
+}
+
+const getAllLeadsComercial = (req, res) => {
+    let query = `SELECT * FROM leadscomercial`
+
+    db.query(query, (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener los comerciales`, err);
+            res.status(500).json({ error: "Error al obtener comerciales"})
+            return
+        }
+
+        res.json(result)
+    })
+}
+
+const getAllLeadsResidencias = (req, res) => {
+    let query = `SELECT * FROM leadsresidencia`
+
+    db.query(query, (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener los comerciales`, err);
+            res.status(500).json({ error: "Error al obtener comerciales"})
+            return
+        }
+
+        res.json(result)
+    })
+}
 
 
 
 
 module.exports = { residencialFilter, comercialFilter,residenciaByMail, comercialByMail, getResidenciaById,getComercialById, dataTelevisores,productos
-,leadCMail, leadRMail, getAmountLead }
+,leadCMail, leadRMail, getAmountLead, getAllInmobi, getAllresidencias, getAllComerciales, getAllLeadsResidencias, getAllLeadsComercial }
