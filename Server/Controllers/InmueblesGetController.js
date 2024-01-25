@@ -384,7 +384,10 @@ const getAllComerciales = (req, res) => {
 }
 
 const getAllLeadsComercial = (req, res) => {
-    let query = `SELECT * FROM leadscomercial`
+    let query = `SELECT Idlead,Idcomercial,NombreC,Nombrecliente,Numerocliente,Fechalead 
+                FROM leadscomercial
+                INNER JOIN comercial ON leadscomercial.Idcomercial = comercial.ID_Comercial
+                INNER JOIN inmobiliaria ON inmobiliaria.ID_Inmobiliaria = comercial.ID_Inmobiliaria`
 
     db.query(query, (err, result) => {
         if(err){
@@ -398,7 +401,9 @@ const getAllLeadsComercial = (req, res) => {
 }
 
 const getAllLeadsResidencias = (req, res) => {
-    let query = `SELECT * FROM leadsresidencia`
+    let query = `SELECT Idlead,Idresidencia,NombreR,Nombrecliente,Numerocliente,Fechalead FROM leadsresidencia
+                INNER JOIN residencial ON leadsresidencia.Idresidencia = residencial.ID_Residencial
+                INNER JOIN inmobiliaria ON inmobiliaria.ID_Inmobiliaria = residencial.ID_Inmobiliaria`
 
     db.query(query, (err, result) => {
         if(err){
