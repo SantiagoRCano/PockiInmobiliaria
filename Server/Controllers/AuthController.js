@@ -11,7 +11,8 @@ const verifyUser =  async(req, res) => {
 
     let query = `SELECT ID_Inmobiliaria,Nombre_Inmobiliaria,Correo_Inmobiliaria,Ubicacion_Inmobiliaria,
     Estado,Fecharegistro,Numeroidentificacion,Representante,Tipoidentificacion,Municipio,Departamento,
-    Telefonorepresen,Celular,Correofacturacion,Personaencargada,Cargo,Telefonocargo,Contraseña 
+    Telefonorepresen,Celular,Correofacturacion,Personaencargada,Cargo,Telefonocargo,Contraseña,
+    cantidadLeads,rol
     FROM inmobiliaria WHERE Correo_Inmobiliaria = ?`
 
     db.query(query, [Correo], async (err, results) => {
@@ -48,5 +49,20 @@ const verifyUser =  async(req, res) => {
 }
 
 
+const isAdmin = (req,res,next) => {
+    const body = req.body
 
-module.exports = { verifyUser }
+    if(body.user === 'admin'){
+        next()
+    }else{
+        res.status(403).send('No permitido')
+    }
+}
+
+
+const decirAlgo = (req, res, next) => {
+    res.send('hola')
+}
+
+
+module.exports = { verifyUser, isAdmin, decirAlgo }

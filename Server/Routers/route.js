@@ -32,6 +32,7 @@ router.get('/getAmountLeads/:mail', propiedadesInmuebles.getAmountLead)
 
 router.get('/televisores', propiedadesInmuebles.dataTelevisores)
 router.get('/productos', propiedadesInmuebles.productos)
+router.get('/prueba', auth.isAdmin,auth.decirAlgo)
 
 
 

@@ -410,11 +410,11 @@ const updateAmountLead = (req, res) => {
 
     db.query(query, [AmountLead, itemMail], (err,result) => {
         if (err) {
-            console.error('Error al actualizar la propiedad:', err);
+            console.error('Error al actualizar cantidad:', err);
             res.status(500).json({ error: 'Error interno del servidor' });
         }
 
-        return res.json({ mensaje: "Propiedad actualizada correctamente"})
+        return res.json({ mensaje: "Cantidad lead actualizado correctamente"})
     })
 }
 
