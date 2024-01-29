@@ -336,7 +336,7 @@ const getAmountLead = (req, res) => {
 }
 
 const getAllInmobi = (req, res) => {
-    let query = `SELECT ID_Inmobiliaria,Nombre_Inmobiliaria,Correofacturacion,Celular,Personaencargada,cantidadLeads FROM inmobiliaria`
+    let query = `SELECT ID_Inmobiliaria,Nombre_Inmobiliaria,Correofacturacion,Celular,Personaencargada,cantidadLeads,rol FROM inmobiliaria`
 
     db.query(query, (err, result) => {
         if(err){
