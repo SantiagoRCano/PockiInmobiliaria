@@ -31,6 +31,7 @@ router.get('/getAllR', propiedadesInmuebles.getAllresidencias)
 router.get('/getAllC', propiedadesInmuebles.getAllComerciales)
 router.get('/getAllLeadsC', propiedadesInmuebles.getAllLeadsComercial)
 router.get('/getAllLeadsR', propiedadesInmuebles.getAllLeadsResidencias)
+router.get('/AllLeads', propiedadesInmuebles.getAllLeads)
 
 
 

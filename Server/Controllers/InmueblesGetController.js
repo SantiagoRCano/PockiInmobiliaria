@@ -417,7 +417,21 @@ const getAllLeadsResidencias = (req, res) => {
 }
 
 
+const getAllLeads = (req,res) => {
+    let query = `SELECT ((SELECT COUNT(*) FROM leadscomercial) + (SELECT COUNT(*) FROM leadsresidencia)) AS Total`
+
+    db.query(query, (err,result) => {
+        if(err){
+            console.log(`No se ha podido obtener los comerciales`, err);
+            res.status(500).json({ error: "Error al obtener comerciales"})
+            return
+        }
+
+        res.json(result[0])
+    })
+}
+
 
 
 module.exports = { residencialFilter, comercialFilter,residenciaByMail, comercialByMail, getResidenciaById,getComercialById, dataTelevisores,productos
-,leadCMail, leadRMail, getAmountLead, getAllInmobi, getAllresidencias, getAllComerciales, getAllLeadsResidencias, getAllLeadsComercial }
+,leadCMail, leadRMail, getAmountLead, getAllInmobi, getAllresidencias, getAllComerciales, getAllLeadsResidencias, getAllLeadsComercial, getAllLeads }
