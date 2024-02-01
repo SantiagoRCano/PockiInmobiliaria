@@ -345,7 +345,14 @@ const getAllInmobi = (req, res) => {
             return
         }
 
-        res.json(result)
+        const promesas = result.map(async (inmobiliaria) => {
+            const totalMes = await getAllLeadsById(inmobiliaria.ID_Inmobiliaria);
+            inmobiliaria.totalMes = totalMes
+        });
+
+        Promise.all(promesas).then(() => {
+            res.json(result)
+        })
     })
 }
 
@@ -418,12 +425,29 @@ const getAllLeadsResidencias = (req, res) => {
 
 
 const getAllLeads = (req,res) => {
-    let query = `SELECT ((SELECT COUNT(*) FROM leadscomercial) + (SELECT COUNT(*) FROM leadsresidencia)) AS Total`
+    let fechaActual = new Date()
+    let mesActual = fechaActual.getMonth()
+    let firstMes = mesActual + 1
+    let finalMes = mesActual + 2
+
+    if(mesActual == 11){
+        finalMes = mesActual - 10
+    }
+
+    let query = 
+    `
+        SELECT COUNT(DISTINCT Numerocliente) AS Total
+        FROM (
+        SELECT Numerocliente FROM leadscomercial WHERE Fechalead BETWEEN '2024-${firstMes}-01' AND '2024-${finalMes}-01'
+        UNION ALL
+        SELECT Numerocliente FROM leadsresidencia WHERE Fechalead BETWEEN '2024-${firstMes}-01' AND '2024-${finalMes}-01'
+        ) AS ClientesCombinados;
+    `
 
     db.query(query, (err,result) => {
         if(err){
-            console.log(`No se ha podido obtener los comerciales`, err);
-            res.status(500).json({ error: "Error al obtener comerciales"})
+            console.log(`No se ha podido obtener la cantidad`, err);
+            res.status(500).json({ error: "Error al obtener la cantidad"})
             return
         }
 
@@ -432,6 +456,107 @@ const getAllLeads = (req,res) => {
 }
 
 
+const getAllLeadsById = async(id) => {
+    let fechaActual = new Date()
+    let mesActual = fechaActual.getMonth()
+    let firstMes = mesActual + 1
+    let finalMes = mesActual + 2
 
-module.exports = { residencialFilter, comercialFilter,residenciaByMail, comercialByMail, getResidenciaById,getComercialById, dataTelevisores,productos
-,leadCMail, leadRMail, getAmountLead, getAllInmobi, getAllresidencias, getAllComerciales, getAllLeadsResidencias, getAllLeadsComercial, getAllLeads }
+    if(mesActual == 11){
+        finalMes = mesActual - 10
+    }
+
+    let query = 
+    `
+        SELECT COUNT(DISTINCT Numerocliente) AS Totalmes
+        FROM (
+            SELECT Numerocliente 
+            FROM leadscomercial AS lc
+            INNER JOIN comercial AS c ON lc.Idcomercial = c.ID_Comercial
+            INNER JOIN inmobiliaria AS i ON c.ID_Inmobiliaria = i.ID_Inmobiliaria
+            WHERE lc.Fechalead BETWEEN '2024-${firstMes}-01' AND '2024-${finalMes}-01'
+            AND i.ID_Inmobiliaria = ?
+            UNION ALL
+            SELECT Numerocliente 
+            FROM leadsresidencia AS lr
+            INNER JOIN residencial AS r ON lr.Idresidencia = r.ID_Residencial
+            INNER JOIN inmobiliaria AS i ON r.ID_Inmobiliaria = i.ID_Inmobiliaria
+            WHERE lr.Fechalead BETWEEN '2024-${firstMes}-01' AND '2024-${finalMes}-01'
+            AND i.ID_Inmobiliaria = ?
+        ) AS ClientesCombinados;
+    `;
+
+    return new Promise((resolve, reject) => {
+        db.query(query, [id,id], (err,result) => {
+            if(err){
+                console.log(`No se ha podido obtener la cantidad de leads con ese id`, err);
+                reject(err);    
+            }else{
+                resolve(result[0].Totalmes)
+            }
+        });
+    });
+
+}
+
+
+const facturaLeadId = (req, res) => {
+    let id = req.params.id
+    let fechaActual = new Date()
+    let mesActual = fechaActual.getMonth()
+    let firstMes = mesActual + 1
+    let finalMes = mesActual + 2
+
+    if(mesActual == 11){
+        finalMes = mesActual - 10
+    }
+
+    let query =
+    `
+        SELECT Numerocliente,
+        MAX(Nombrecliente) AS Nombrecliente,
+        SUBSTRING_INDEX(GROUP_CONCAT(NombreC ORDER BY NombreC SEPARATOR ', '), ',', -1) AS NombresC,
+        SUBSTRING_INDEX(GROUP_CONCAT(EnlaceC ORDER BY EnlaceC SEPARATOR ', '), ',', -1) AS EnlacesC
+        FROM (
+            SELECT lc.Numerocliente, lc.Nombrecliente, c.NombreC, c.EnlaceC
+            FROM leadscomercial AS lc
+            INNER JOIN comercial AS c ON lc.Idcomercial = c.ID_Comercial
+            INNER JOIN inmobiliaria AS i ON c.ID_Inmobiliaria = i.ID_Inmobiliaria
+            WHERE lc.Fechalead BETWEEN '2024-${firstMes}-01' AND '2024-${finalMes}-01'
+            AND i.ID_Inmobiliaria = ?
+            UNION
+            SELECT lr.Numerocliente, lr.Nombrecliente, r.NombreR, r.EnlaceR
+            FROM leadsresidencia AS lr
+            INNER JOIN residencial AS r ON lr.Idresidencia = r.ID_Residencial
+            INNER JOIN inmobiliaria AS i ON r.ID_Inmobiliaria = i.ID_Inmobiliaria
+            WHERE lr.Fechalead BETWEEN '2024-${firstMes}-01' AND '2024-${finalMes}-01'
+            AND i.ID_Inmobiliaria = ?
+        ) AS NumerosClientesConPropiedades
+        GROUP BY Numerocliente;
+    `
+
+    db.query(query, [id,id], (err, result) => {
+        if(err){
+            console.log(`No se ha podido obtener facturación`, err);
+            res.status(500).json({ error: "Error al obtener factura"})
+            return
+        }
+
+        res.json(result)
+    })
+
+}
+
+
+
+module.exports = { 
+    residencialFilter, comercialFilter,
+    residenciaByMail, comercialByMail,
+    getResidenciaById,getComercialById,
+    dataTelevisores,productos,
+    leadCMail, leadRMail, 
+    getAmountLead, getAllInmobi, getAllresidencias, getAllComerciales, getAllLeadsResidencias, getAllLeadsComercial, getAllLeads,
+    getAllLeadsById, facturaLeadId
+}
+
+
