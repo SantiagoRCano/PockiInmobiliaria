@@ -356,6 +356,55 @@ const getAllInmobi = (req, res) => {
     })
 }
 
+const getAllLeadsById = async(id) => {
+    let fechaActual = new Date()
+    let mesActual = fechaActual.getMonth() + 1
+    let firstMes,finalMes
+
+    if(mesActual === 1){
+        firstMes = 12;
+        finalMes = 2;
+    }else if(mesActual === 12){
+        firstMes = 11;
+        finalMes = 1;
+    }else{
+        firstMes = mesActual - 1;
+        finalMes = mesActual + 1;
+    }
+
+    let query = 
+    `
+        SELECT COUNT(DISTINCT Numerocliente) AS Totalmes
+        FROM (
+            SELECT Numerocliente 
+            FROM leadscomercial AS lc
+            INNER JOIN comercial AS c ON lc.Idcomercial = c.ID_Comercial
+            INNER JOIN inmobiliaria AS i ON c.ID_Inmobiliaria = i.ID_Inmobiliaria
+            WHERE lc.Fechalead BETWEEN '2024-${firstMes.toString().padStart(2,'0')}-01' AND '2024-${finalMes.toString().padStart(2,'0')}-01'
+            AND i.ID_Inmobiliaria = ?
+            UNION ALL
+            SELECT Numerocliente 
+            FROM leadsresidencia AS lr
+            INNER JOIN residencial AS r ON lr.Idresidencia = r.ID_Residencial
+            INNER JOIN inmobiliaria AS i ON r.ID_Inmobiliaria = i.ID_Inmobiliaria
+            WHERE lr.Fechalead BETWEEN '2024-${firstMes.toString().padStart(2,'0')}-01' AND '2024-${finalMes.toString().padStart(2,'0')}-01'
+            AND i.ID_Inmobiliaria = ?
+        ) AS ClientesCombinados;
+    `;
+
+    return new Promise((resolve, reject) => {
+        db.query(query, [id,id], (err,result) => {
+            if(err){
+                console.log(`No se ha podido obtener la cantidad de leads con ese id`, err);
+                reject(err);    
+            }else{
+                resolve(result[0].Totalmes)
+            }
+        });
+    });
+
+}
+
 
 const getAllresidencias = (req, res) => {
     let query = `SELECT ID_Inmobiliaria,ID_Residencial,TipoR, NombreR, HabitacionR,BanosR,
@@ -456,48 +505,7 @@ const getAllLeads = (req,res) => {
 }
 
 
-const getAllLeadsById = async(id) => {
-    let fechaActual = new Date()
-    let mesActual = fechaActual.getMonth()
-    let firstMes = mesActual + 1
-    let finalMes = mesActual + 2
 
-    if(mesActual == 11){
-        finalMes = mesActual - 10
-    }
-
-    let query = 
-    `
-        SELECT COUNT(DISTINCT Numerocliente) AS Totalmes
-        FROM (
-            SELECT Numerocliente 
-            FROM leadscomercial AS lc
-            INNER JOIN comercial AS c ON lc.Idcomercial = c.ID_Comercial
-            INNER JOIN inmobiliaria AS i ON c.ID_Inmobiliaria = i.ID_Inmobiliaria
-            WHERE lc.Fechalead BETWEEN '2024-${firstMes}-01' AND '2024-${finalMes}-01'
-            AND i.ID_Inmobiliaria = ?
-            UNION ALL
-            SELECT Numerocliente 
-            FROM leadsresidencia AS lr
-            INNER JOIN residencial AS r ON lr.Idresidencia = r.ID_Residencial
-            INNER JOIN inmobiliaria AS i ON r.ID_Inmobiliaria = i.ID_Inmobiliaria
-            WHERE lr.Fechalead BETWEEN '2024-${firstMes}-01' AND '2024-${finalMes}-01'
-            AND i.ID_Inmobiliaria = ?
-        ) AS ClientesCombinados;
-    `;
-
-    return new Promise((resolve, reject) => {
-        db.query(query, [id,id], (err,result) => {
-            if(err){
-                console.log(`No se ha podido obtener la cantidad de leads con ese id`, err);
-                reject(err);    
-            }else{
-                resolve(result[0].Totalmes)
-            }
-        });
-    });
-
-}
 
 
 const facturaLeadId = (req, res) => {
